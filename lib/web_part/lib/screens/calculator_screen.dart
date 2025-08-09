@@ -1,15 +1,21 @@
-import 'package:unwomen_unpaid_not_unseen/web_part/lib/widgets/dropdown.dart';
+import 'package:unwomen_unpaid_not_unseen/controller/routes.dart';
+import 'package:unwomen_unpaid_not_unseen/views/landing_page.dart';
+
 
 import '../../../entities/questions.dart';
-import '../constants/app_colors.dart';
+import '../../../providers/question_provider_principal.dart';
+import '../../../services/language_service.dart';
+import '../../../services/languages.dart';
+
+import '../../../widgets/dropdowns.dart';
 import '../constants/text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../services/question_service.dart';
+
 import '../widgets/task_card.dart';
 import '../providers/calculator_provider.dart';
-import 'result_page.dart'; // Import ResultPage
+
 
 class CalculatorScreen extends StatefulWidget {
   const CalculatorScreen({super.key});
@@ -22,51 +28,25 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
   double? _leftPanelHeight;
   int? _lastTaskCount;
 
-  // Add these methods
-  Map<String, int> get usedScores {
-    final provider = Provider.of<CalculatorProvider>(context, listen: false);
-    final Map<String, int> scores = {};
-    for (var task in provider.selectedTasks.entries) {
-      final String taskId = task.key;
-      final double hours = task.value;
-      final int basePoints = getTaskBasePoints(taskId);
-      final int taskScore = (hours * basePoints).round();
-      scores[taskId] = taskScore;
-    }
-    return scores;
+
+  late QuestionProviderPrincipal questionProviderPrincipal;
+  @override
+  void initState() {
+    questionProviderPrincipal = Provider.of<QuestionProviderPrincipal>(
+      context,
+      listen: false,
+    );
+    // TODO: implement initState
+    super.initState();
   }
 
-  int getTaskBasePoints(String taskId) {
-    final Map<String, int> taskPoints = activityScores;
-    // {
-    //   'Cooking': 100,
-    //   'Childcare': 150,
-    //   'Adult Care': 125,
-    //   'Cleaning': 75,
-    //   'Grocery Shopping': 50,
-    //   'Laundry': 60,
-    //   'Homework Help': 100,
-    //   'Emotional Support': 125,
-    //   'Gardening': 75,
-    //   'Water Collection': 50,
-    //   'Healthcare Support': 150,
-    //   'Other': 50
-    // };
-    return taskPoints[taskId] ?? 50;
-  }
 
-  int get usedTotalScore {
-    return usedScores.values.fold(0, (sum, score) => sum + score);
-  }
 
-  Map<String, double> get usedHoursByQuestion {
-    final provider = Provider.of<CalculatorProvider>(context, listen: false);
-    return Map<String, double>.from(provider.selectedTasks);
-  }
+
+
 
   @override
   Widget build(BuildContext context) {
-    final calculatorProvider = Provider.of<CalculatorProvider>(context);
     final size = MediaQuery
         .of(context)
         .size;
@@ -77,10 +57,11 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
       appBar: AppBar(
         title: Row(
           children: [
+
             /// appbar
             Text(
               'Unpaid Work Calculator',
-              style: AppTextStyles.h1(context,color: Colors.white),
+              style: AppTextStyles.h1(context, color: Colors.white),
             ),
             const SizedBox(width: 12),
             Container(
@@ -98,34 +79,12 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
           ],
         ),
         actions: [
-          // TextButton(
-          //   onPressed: () {
-          //     Navigator.pushNamed(context, '/campaign_info');
-          //   },
-          //   child: Text(
-          //     'Campaign Info',
-          //     style: AppTextStyles.normal(context,color: Colors.white),
-          //   ),
-          // ),
-          // TextButton(
-          //   onPressed: () {
-          //     Navigator.pushNamed(context, '/contact');
-          //   },
-          //   child: Text(
-          //     'Contact',
-          //     style: AppTextStyles.normal(context),
-          //   ),
-          // ),
+
         ],
       ),
       body: LayoutBuilder(
         builder: (context, constraints) {
-          // final viewportHeight = MediaQuery
-          //     .of(context)
-          //     .size
-          //     .height;
-          // final minCardHeight = viewportHeight - kToolbarHeight -
-          //     32; // 32 for the symmetric outer padding
+
           /// body
 
           return SingleChildScrollView(
@@ -157,10 +116,11 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                           //     ? _buildMobileLayout(calculatorProvider)
                           //     :
                           _buildDesktopLayout(
-                              calculatorProvider, isTablet),
+                              isTablet),
                           // _buildMobileLayout(calculatorProvider),
                           const SizedBox(height: 24),
-/// bottom section
+
+                          /// bottom section
 //                           Image.asset(
 //                             'assets/logo/unpaid_not_unseen.png',
 //                             height: 100,
@@ -232,7 +192,8 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
     );
   }
 
-  Widget _buildDesktopLayout(CalculatorProvider provider, bool isTablet) {
+  Widget _buildDesktopLayout(bool isTablet) {
+    final langService = Provider.of<LanguageServiceMobile>(context);
     final leftKey = GlobalKey();
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -253,6 +214,7 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+
         /// select your care work tasks
         Expanded(
           //flex: isTablet ? 1 : 3,
@@ -286,11 +248,15 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                   itemBuilder: (context, index) {
                     final task = questionList[index];
                     return TaskCard(
-                      title: task['title'] as String,
-                      imagePath: task['imagePath'] as String,
-                      defaultHours: task['defaultHours'] as double,
-                      isSelected: provider.selectedTasks.containsKey(
-                          task['title']),
+                      title: i18n[langService
+                          .currentLanguage]?["activity_names"]?[questionList[index]["question_key"]],
+                      imagePath: questionList[index]["imagePath"],
+                      defaultHours: 3 as double,
+                      isSelected: false,
+                      currentIndex: index,
+                      question: i18n[langService
+                          .currentLanguage]?["questions"]?[questionList[index]["question_key"]],
+                      questionKey: questionList[index]["question_key"],
                     );
                   },
                 ),
@@ -299,9 +265,10 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
           ),
         ),
         const SizedBox(width: 24),
+
         /// your unpaid work value
         Expanded(
-        //  flex: isTablet ? 1 : 2,
+          //  flex: isTablet ? 1 : 2,
           child: Container(
             height: _leftPanelHeight,
             decoration: BoxDecoration(
@@ -322,77 +289,101 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                 //   style: AppTextStyles.normal(context, color: Colors.white),
                 // ),
                 const SizedBox(height: 8),
-                Row(
-                  children: [
-                    Expanded(
-                      child: TextField(
-                        controller: provider.nameController,
-                        decoration: InputDecoration(
-                          hintText: 'Enter your name',
-                          filled: true,
-                          fillColor: Colors.white,
-                          label: Text("Name"),
-                          labelStyle: TextStyle(color: Colors.black, fontWeight: FontWeight.w500,backgroundColor: Colors.white),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide.none,
+                Consumer<QuestionProviderPrincipal>(
+                  builder: (context,questionProvider, child) {
+                    return Row(
+                        children: [
+                          Expanded(
+                            child: TextField(
+                              controller: questionProvider.userName,
+                              decoration: InputDecoration(
+                                hintText: 'Enter your name',
+                                filled: true,
+                                fillColor: Colors.white,
+                                label: Text("Name"),
+                                labelStyle: TextStyle(color: Colors.black,
+                                    fontWeight: FontWeight.w500,
+                                    backgroundColor: Colors.white),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                  borderSide: BorderSide.none,
+                                ),
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                    ),
-                    Expanded(child: _buildDropdown("Gender", null,[ "Female","Male"], (gender){})),
-                  ],
+                          Expanded(child: buildDropdown(
+                            "Gender",  questionProvider.selectedGender, ["Woman", "Man"], (gender,) {
+                            questionProvider.selectedGender = gender;
+                            questionProvider.refresh();
+                          },
+                          )),
+                        ],
+                    );
+                  }
                 ),
                 const SizedBox(height: 8),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Container(
-                      padding: EdgeInsets.all(10),
-                      margin: EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: Color(0xFFF9FAFB),
-                      ),
-                      child: Column(
-                        children: [
-                          Text(
-                            provider.totalHours.toStringAsFixed(1),
-                            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 28,color:  Color(0xff2599D8)),
+                Consumer<QuestionProviderPrincipal>(
+                  builder: (context, questionProvider, child) {
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Container(
+                          padding: EdgeInsets.all(10),
+                          margin: EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: Color(0xFFF9FAFB),
                           ),
-                          SizedBox(height: 15,),
-                          Text(
-                            'Total Hours',
-                            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18,color:  Color(0xff2599D8)),
-                      
+                          child: Column(
+                            children: [
+                              Text(
+                                questionProvider.getGrandTotalHour().toStringAsFixed(1),
+                                style: TextStyle(fontWeight: FontWeight.bold,
+                                    fontSize: 28,
+                                    color: Color(0xff2599D8)),
+                              ),
+                              SizedBox(height: 15,),
+                              Text(
+                                'Total Hours',
+                                style: TextStyle(fontWeight: FontWeight.bold,
+                                    fontSize: 18,
+                                    color: Color(0xff2599D8)),
+
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(width:  20),
-                    Container(
-                      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
-                      margin: EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                        color: Color(0xFFF9FAFB),
-                      ),
-                      child: Column(
-                        children: [
-                          Text(
-                            provider.totalPoints.toString(),
-                            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 28,color: Color(0xff2599D8)),
+                        ),
+                        const SizedBox(width: 20),
+                        Container(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 10, vertical: 15),
+                          margin: EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: Color(0xFFF9FAFB),
                           ),
-                          SizedBox(height: 15,),
-                          Text(
-                            'Total Points',
-                           // style: AppTextStyles.normal(context, color: Colors.white),
-                            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18,color:  Color(0xff2599D8)),
+                          child: Column(
+                            children: [
+                              Text(
+                                questionProvider.getGrandTotalPoint().toString(),
+                                style: TextStyle(fontWeight: FontWeight.bold,
+                                    fontSize: 28,
+                                    color: Color(0xff2599D8)),
+                              ),
+                              SizedBox(height: 15,),
+                              Text(
+                                'Total Points',
+                                // style: AppTextStyles.normal(context, color: Colors.white),
+                                style: TextStyle(fontWeight: FontWeight.bold,
+                                    fontSize: 18,
+                                    color: Color(0xff2599D8)),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
-                    ),
-                  ],
+                        ),
+                      ],
+                    );
+                  }
                 ),
 
                 const SizedBox(height: 8),
@@ -402,11 +393,11 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 8),
-                if (provider.selectedTasks.isNotEmpty)
+                if (false)
                   LayoutBuilder(
                     builder: (context, constraints) {
                       const double maxChipHeight = 100.0;
-                      final chipCount = provider.selectedTasks.length;
+                      final chipCount = 2;
                       final estRows = (chipCount / 4.0).ceil();
                       final naturalHeight = 16.0 + (estRows * 36.0) + 16.0;
                       final useScroll = naturalHeight > maxChipHeight;
@@ -420,80 +411,89 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                           border: Border.all(color: Colors.white24),
                         ),
                         //height: useScroll ? maxChipHeight : null,
-                        child: useScroll
-                            ? SingleChildScrollView(
-                          child: _chipWrap(provider),
-                        )
-                            : _chipWrap(provider),
+                        child: Text("chip will be here"),
+                        //   useScroll
+                        //       ? SingleChildScrollView(
+                        //     child: _chipWrap(provider),
+                        //   )
+                        //       : _chipWrap(provider),
                       );
                     },
                   ),
                 const SizedBox(height: 8),
-                if (provider.selectedTasks.isNotEmpty) Row(
-                 mainAxisAlignment: MainAxisAlignment.center,
-                 children: [
-                   ElevatedButton.icon(
-                     onPressed: provider.resetCalculation,
-                     style: ElevatedButton.styleFrom(
-                       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                       backgroundColor: Colors.white,
-                       foregroundColor: const Color(
-                           0xFF0099D8), // or your preferred color
-                     ),
-                     icon: const Icon(
-                       Icons.refresh, color: Color(0xFF0099D8),),
-                     label: Text(
-                       'Reset Values',
-                       style: AppTextStyles.buttonText(context, color: Color(0xFF0099D8)),
-                     ),
-                   ),
-                   SizedBox(width: 15,),
+                if (true) Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ElevatedButton.icon(
+                      onPressed: () {
+                        "do something";
+                      },
+                      style: ElevatedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 24, vertical: 12),
+                        backgroundColor: Colors.white,
+                        foregroundColor: const Color(
+                            0xFF0099D8), // or your preferred color
+                      ),
+                      icon: const Icon(
+                        Icons.refresh, color: Color(0xFF0099D8),),
+                      label: Text(
+                        'Reset Values',
+                        style: AppTextStyles.buttonText(context, color: Color(
+                            0xFF0099D8)),
+                      ),
+                    ),
+                    SizedBox(width: 15,),
 
-                     SizedBox(
-                       //width: MediaQuery.of(context).size.width * 0.92,
-                       child: ElevatedButton.icon(
-                         onPressed: () {
-                           print(
-                               'View Result pressed: arguments = {scores: $usedScores, totalScore: $usedTotalScore, hoursByQuestion: $usedHoursByQuestion, name: ${provider
-                                   .nameController.text}, totalHours: ${provider
-                                   .totalHours}, totalValue: ${provider
-                                   .totalPoints}, selectedTasks: ${provider
-                                   .selectedTasks}}');
-                           Navigator.pushNamed(
-                             context,
-                             '/result',
-                             arguments: {
-                               'name': provider.nameController.text,
-                               'totalHours': provider.totalHours,
-                               'totalValue': provider.totalPoints,
-                               'selectedTasks': provider.selectedTasks,
-                               'scores': usedScores,
-                              // 'totalScore': usedTotalScore,
-                               'totalScore': provider.totalPoints,
-                               'hoursByQuestion': usedHoursByQuestion,
-                               'taskNames': {
-                                 for(final t in questionList) t['title']: t['title']
-                               },
-                             },
-                           );
-                         },
-                         style: ElevatedButton.styleFrom(
-                           backgroundColor: Colors.white,
-                           foregroundColor: Color(0xFF0099D8),
-                           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                           shape: RoundedRectangleBorder(
-                             borderRadius: BorderRadius.circular(16),
-                           ),
-                         ),
-                         icon: Icon(Icons.list),
-                         label: Text(
-                           'View Result',
-                           style: AppTextStyles.buttonText(context,color: Color(0xFF0099D8)),
-                         ),
-                       ),
-                     ),
-                 ],
-               ),
+                    SizedBox(
+                      //width: MediaQuery.of(context).size.width * 0.92,
+                      child: ElevatedButton.icon(
+                        onPressed: () {
+                          Navigator.of(context).pushReplacementNamed(WebRoutes
+                              .webResult,);
+                          // print(
+                          //     'View Result pressed: arguments = {scores: $usedScores, totalScore: $usedTotalScore, hoursByQuestion: $usedHoursByQuestion, name: ${provider
+                          //         .nameController.text}, totalHours: ${provider
+                          //         .totalHours}, totalValue: ${provider
+                          //         .totalPoints}, selectedTasks: ${provider
+                          //         .selectedTasks}}');
+                          // Navigator.pushNamed(
+                          //   context,
+                          //   '/result',
+                          //   arguments: {
+                          //     'name': provider.nameController.text,
+                          //     'totalHours': provider.totalHours,
+                          //     'totalValue': provider.totalPoints,
+                          //     'selectedTasks': provider.selectedTasks,
+                          //     'scores': usedScores,
+                          //    // 'totalScore': usedTotalScore,
+                          //     'totalScore': provider.totalPoints,
+                          //     'hoursByQuestion': usedHoursByQuestion,
+                          //     'taskNames': {
+                          //       for(final t in questionList) t['title']: t['title']
+                          //     },
+                          //   },
+                          // );
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.white,
+                          foregroundColor: Color(0xFF0099D8),
+                          padding: const EdgeInsets.symmetric(horizontal: 24,
+                              vertical: 12),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                        ),
+                        icon: Icon(Icons.list),
+                        label: Text(
+                          'View Result',
+                          style: AppTextStyles.buttonText(context,
+                              color: Color(0xFF0099D8)),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
                 const SizedBox(height: 8),
 
               ],
@@ -543,166 +543,117 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
   }
 
 
+  // Widget _buildMobileLayout(CalculatorProvider provider) {
+  //   return Column(
+  //     children: [
+  //       // Results panel
+  //       Container(
+  //         width: double.infinity,
+  //         decoration: BoxDecoration(
+  //           color: const Color(0xFF0099D8),
+  //           borderRadius: BorderRadius.circular(16),
+  //         ),
+  //         padding: const EdgeInsets.all(24),
+  //         child: Column(
+  //           children: [
+  //             Text(
+  //               'Your Unpaid Work Value',
+  //               style: AppTextStyles.h2(context),
+  //             ),
+  //             const SizedBox(height: 16),
+  //             Text(
+  //               'Your Name',
+  //               style: AppTextStyles.normal(context,color: Colors.white),
+  //             ),
+  //             const SizedBox(height: 8),
+  //             TextField(
+  //               controller: provider.nameController,
+  //               decoration: InputDecoration(
+  //                 hintText: 'Enter your name',
+  //                 filled: true,
+  //                 fillColor: Colors.white,
+  //                 border: OutlineInputBorder(
+  //                   borderRadius: BorderRadius.circular(8),
+  //                   borderSide: BorderSide.none,
+  //                 ),
+  //               ),
+  //             ),
+  //             const SizedBox(height: 24),
+  //             Row(
+  //               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+  //               children: [
+  //                 Column(
+  //                   children: [
+  //                     Text(
+  //                       provider.totalHours.toStringAsFixed(1),
+  //                       style: AppTextStyles.h2(context,color: Colors.white),
+  //                     ),
+  //                     Text(
+  //                       'Hours',
+  //                       style: AppTextStyles.normal(context,color: Colors.white),
+  //                     ),
+  //                   ],
+  //                 ),
+  //                 Column(
+  //                   children: [
+  //                     Text(
+  //                       provider.totalPoints.toString(),
+  //                       style: AppTextStyles.h2(context,color: Colors.white),
+  //                     ),
+  //                     Text(
+  //                       'Points',
+  //                       style: AppTextStyles.normal(context,color: Colors.white),
+  //                     ),
+  //                   ],
+  //                 ),
+  //               ],
+  //             ),
+  //             const SizedBox(height: 16),
+  //             Image.asset(
+  //               'assets/logo/unpaid_not_unseen.png',
+  //               height: 60,
+  //               fit: BoxFit.contain,
+  //             ),
+  //           ],
+  //         ),
+  //       ),
+  //       const SizedBox(height: 24),
+  //
+  //       // Task selection
+  //       Column(
+  //         crossAxisAlignment: CrossAxisAlignment.start,
+  //         children: [
+  //           Text(
+  //             'Select Your Care Work Tasks',
+  //             style: AppTextStyles.h2(context),
+  //             textAlign: TextAlign.left,
+  //           ),
+  //           const SizedBox(height: 16),
+  //           GridView.builder(
+  //             shrinkWrap: true,
+  //             physics: const NeverScrollableScrollPhysics(),
+  //             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+  //               crossAxisCount: 2,
+  //               crossAxisSpacing: 12,
+  //               mainAxisSpacing: 12,
+  //               childAspectRatio: 0.8,
+  //             ),
+  //             itemCount: questionList.length,
+  //             itemBuilder: (context, index) {
+  //               final task = questionList[index];
+  //               return TaskCard(
+  //                 title: task['title'] as String,
+  //                 imagePath: task['imagePath'] as String,
+  //                 defaultHours: task['defaultHours'] as double,
+  //                 isSelected: provider.selectedTasks.containsKey(task['title']), question: '', questionKey: '', currentIndex: null,
+  //               );
+  //             },
+  //           ),
+  //         ],
+  //       ),
+  //     ],
+  //   );
+  // }
 
 
-
-  Widget _buildMobileLayout(CalculatorProvider provider) {
-    return Column(
-      children: [
-        // Results panel
-        Container(
-          width: double.infinity,
-          decoration: BoxDecoration(
-            color: const Color(0xFF0099D8),
-            borderRadius: BorderRadius.circular(16),
-          ),
-          padding: const EdgeInsets.all(24),
-          child: Column(
-            children: [
-              Text(
-                'Your Unpaid Work Value',
-                style: AppTextStyles.h2(context),
-              ),
-              const SizedBox(height: 16),
-              Text(
-                'Your Name',
-                style: AppTextStyles.normal(context,color: Colors.white),
-              ),
-              const SizedBox(height: 8),
-              TextField(
-                controller: provider.nameController,
-                decoration: InputDecoration(
-                  hintText: 'Enter your name',
-                  filled: true,
-                  fillColor: Colors.white,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                    borderSide: BorderSide.none,
-                  ),
-                ),
-              ),
-              const SizedBox(height: 24),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Column(
-                    children: [
-                      Text(
-                        provider.totalHours.toStringAsFixed(1),
-                        style: AppTextStyles.h2(context,color: Colors.white),
-                      ),
-                      Text(
-                        'Hours',
-                        style: AppTextStyles.normal(context,color: Colors.white),
-                      ),
-                    ],
-                  ),
-                  Column(
-                    children: [
-                      Text(
-                        provider.totalPoints.toString(),
-                        style: AppTextStyles.h2(context,color: Colors.white),
-                      ),
-                      Text(
-                        'Points',
-                        style: AppTextStyles.normal(context,color: Colors.white),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              const SizedBox(height: 16),
-              Image.asset(
-                'assets/logo/unpaid_not_unseen.png',
-                height: 60,
-                fit: BoxFit.contain,
-              ),
-            ],
-          ),
-        ),
-        const SizedBox(height: 24),
-
-        // Task selection
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Select Your Care Work Tasks',
-              style: AppTextStyles.h2(context),
-              textAlign: TextAlign.left,
-            ),
-            const SizedBox(height: 16),
-            GridView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                crossAxisSpacing: 12,
-                mainAxisSpacing: 12,
-                childAspectRatio: 0.8,
-              ),
-              itemCount: questionList.length,
-              itemBuilder: (context, index) {
-                final task = questionList[index];
-                return TaskCard(
-                  title: task['title'] as String,
-                  imagePath: task['imagePath'] as String,
-                  defaultHours: task['defaultHours'] as double,
-                  isSelected: provider.selectedTasks.containsKey(task['title']),
-                );
-              },
-            ),
-          ],
-        ),
-      ],
-    );
-  }
-
-  Widget _buildDropdown(
-      String label,
-      String? value,
-      List<String> options,
-      void Function(String?) onChanged,
-      ) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: DropdownButtonFormField<String>(
-        value: value,
-        isExpanded: true,
-        items: options
-            .map((option) => DropdownMenuItem(
-          value: option,
-          child: Text(option, style: TextStyle(color: Colors.black)),
-        ))
-            .toList(),
-        decoration: InputDecoration(
-          labelText: label,
-          labelStyle: TextStyle(color: Colors.black, fontWeight: FontWeight.w500,backgroundColor: Colors.white,),
-          contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-          filled: true,
-          fillColor: Colors.white,
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide(color: Colors.blue.withOpacity(0.4)),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide(color: Colors.white, width: 1.5),
-          ),
-          errorBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide(color: Colors.red.shade700, width: 1.5),
-          ),
-          focusedErrorBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide(color: Colors.red.shade700, width: 1.5),
-          ),
-        ),
-        onChanged: onChanged,
-        validator: (value) => value == null || value.isEmpty
-            ? 'Please select $label'
-            : null,
-      ),
-    );
-  }
 }

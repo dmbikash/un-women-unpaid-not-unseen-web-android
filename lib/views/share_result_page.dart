@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:unwomen_unpaid_not_unseen/web_wrapper.dart';
 import '../controller/routes.dart';
 import '../entities/questions.dart';
 import '../providers/question_provider_old.dart';
@@ -14,7 +15,11 @@ import '../widgets/hour_chart.dart';
 import '../services/language_service.dart';
 
 class ShareResultPage extends StatefulWidget {
-   ShareResultPage({super.key});
+  bool isWebRoute;
+
+   ShareResultPage({
+     this.isWebRoute = false,
+     super.key});
 
   @override
   State<ShareResultPage> createState() => _ShareResultPageState();
@@ -66,19 +71,22 @@ class _ShareResultPageState extends State<ShareResultPage> {
             onPressed: () {
               // Reset the provider state and navigate to landing page instead of questions
               questionProviderPrincipal.reset();
-              Navigator.pushReplacementNamed(context, WebRoutes.landing);
+              widget.isWebRoute?
+              Navigator.pushReplacementNamed(
+                  context, WebRoutes.webHome):
+              Navigator.pushReplacementNamed(context, AppRoutes.landing);
             },
           ),
         ],
       ),
-      body: ListView(
-        padding: EdgeInsets.only(
-          bottom: MediaQuery
-              .of(context)
-              .size
-              .height * 0.03,
-        ),
-        physics: const ClampingScrollPhysics(),
+      body: WebWrapper(
+        // padding: EdgeInsets.only(
+        //   bottom: MediaQuery
+        //       .of(context)
+        //       .size
+        //       .height * 0.03,
+        // ),
+        // physics: const ClampingScrollPhysics(),
         children: [
           // Logo Row
           Container(
@@ -195,10 +203,7 @@ class _ShareResultPageState extends State<ShareResultPage> {
                         .currentLanguage]?['share_result_page']?['unpaid_work_value'] ??
                         'Your Unpaid Work Value',
                     style: TextStyle(
-                      fontSize: MediaQuery
-                          .of(context)
-                          .size
-                          .width * 0.05,
+                      fontSize: 24,
                       fontWeight: FontWeight.bold,
                       color: AppColors.primary,
                     ),
@@ -214,10 +219,7 @@ class _ShareResultPageState extends State<ShareResultPage> {
                         .currentLanguage]?['share_result_page']?['economic_value'] ??
                         'The economic value of your unpaid contributions',
                     style: TextStyle(
-                      fontSize: MediaQuery
-                          .of(context)
-                          .size
-                          .width * 0.035,
+                      fontSize: 20,
                       color: Colors.black87,
                     ),
                     textAlign: TextAlign.center,
@@ -251,10 +253,7 @@ class _ShareResultPageState extends State<ShareResultPage> {
                           .currentLanguage]?['share_result_page']?['value'] ??
                           'Points'}',
                       style: TextStyle(
-                        fontSize: MediaQuery
-                            .of(context)
-                            .size
-                            .width * 0.07,
+                        fontSize: 30,
                         fontWeight: FontWeight.bold,
                         color: AppColors.primary,
                       ),
@@ -271,10 +270,7 @@ class _ShareResultPageState extends State<ShareResultPage> {
                         .currentLanguage]?['share_result_page']?['weekly_value'] ??
                         'Weekly value of your unpaid work',
                     style: TextStyle(
-                      fontSize: MediaQuery
-                          .of(context)
-                          .size
-                          .width * 0.035,
+                      fontSize: 20,
                       color: Colors.black54,
                       fontStyle: FontStyle.italic,
                     ),
@@ -297,10 +293,7 @@ class _ShareResultPageState extends State<ShareResultPage> {
                     .currentLanguage]?['share_result_page']?['no_hour_data'] ??
                     'No hour data available',
                 style: TextStyle(
-                  fontSize: MediaQuery
-                      .of(context)
-                      .size
-                      .width * 0.04,
+                  fontSize: 18,
                   color: Colors.white,
                   fontWeight: FontWeight.w500,
                 ),
@@ -311,7 +304,7 @@ class _ShareResultPageState extends State<ShareResultPage> {
           // Only show chart if we have data
           if (questionProviderPrincipal.getGrandTotalPoint()>0)
             Container(
-              width: double.infinity,
+              width:double.infinity,
               margin: EdgeInsets.fromLTRB(
                   MediaQuery
                       .of(context)
@@ -388,10 +381,7 @@ class _ShareResultPageState extends State<ShareResultPage> {
                           .currentLanguage]?['share_result_page']?['detailed_breakdown'] ??
                           'Detailed Breakdown',
                       style: TextStyle(
-                        fontSize: MediaQuery
-                            .of(context)
-                            .size
-                            .width * 0.045,
+                        fontSize: 14,
                         fontWeight: FontWeight.bold,
                         color: AppColors.primary,
                       ),
@@ -411,10 +401,7 @@ class _ShareResultPageState extends State<ShareResultPage> {
                                 .currentLanguage]?['share_result_page']?['activity'] ??
                                 'Activity',
                             style: TextStyle(
-                              fontSize: MediaQuery
-                                  .of(context)
-                                  .size
-                                  .width * 0.035,
+                              fontSize: 14,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
@@ -430,10 +417,7 @@ class _ShareResultPageState extends State<ShareResultPage> {
                                 // 'hrs'}'
                             ,
                             style: TextStyle(
-                              fontSize: MediaQuery
-                                  .of(context)
-                                  .size
-                                  .width * 0.035,
+                              fontSize:14,
                               fontWeight: FontWeight.w600,
                             ),
                             textAlign: TextAlign.right,
@@ -446,10 +430,7 @@ class _ShareResultPageState extends State<ShareResultPage> {
                                 .currentLanguage]?['share_result_page']?['value'] ??
                                 'Point',
                             style: TextStyle(
-                              fontSize: MediaQuery
-                                  .of(context)
-                                  .size
-                                  .width * 0.035,
+                              fontSize: 14,
                               fontWeight: FontWeight.w600,
                             ),
                             textAlign: TextAlign.right,
@@ -510,10 +491,7 @@ class _ShareResultPageState extends State<ShareResultPage> {
                                 .currentLanguage]?['share_result_page']?['total_value'] ??
                                 'Total Value',
                             style: TextStyle(
-                              fontSize: MediaQuery
-                                  .of(context)
-                                  .size
-                                  .width * 0.04,
+                              fontSize: 18,
                               fontWeight: FontWeight.bold,
                               color: AppColors.primary,
                             ),
@@ -530,10 +508,7 @@ class _ShareResultPageState extends State<ShareResultPage> {
                                 // 'hrs'}'
                             ,
                             style: TextStyle(
-                              fontSize: MediaQuery
-                                  .of(context)
-                                  .size
-                                  .width * 0.04,
+                              fontSize: 18,
                               fontWeight: FontWeight.bold,
                             ),
                             textAlign: TextAlign.center,
@@ -550,10 +525,7 @@ class _ShareResultPageState extends State<ShareResultPage> {
                                 // 'hrs'}'
                             ,
                             style: TextStyle(
-                              fontSize: MediaQuery
-                                  .of(context)
-                                  .size
-                                  .width * 0.04,
+                              fontSize:18,
                               fontWeight: FontWeight.bold,
                               color: AppColors.primary,
                             ),
@@ -567,43 +539,42 @@ class _ShareResultPageState extends State<ShareResultPage> {
               ),
             ),
 
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SizedBox(
-                width: MediaQuery
-                    .of(context)
-                    .size
-                    .width * 0.92, // Make button width match card width
-                child: ElevatedButton(
-                  onPressed: () {
-                    // Reset the quiz and navigate to landing page instead of questions
-                    questionProviderPrincipal.reset();
-                    Navigator.pushReplacementNamed(
-                        context, WebRoutes.landing);
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.white,
-                    foregroundColor: Colors.white,
-                    padding: EdgeInsets.symmetric(
-                        vertical: MediaQuery
-                            .of(context)
-                            .size
-                            .height * 0.02),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                      side: BorderSide(color: Colors.black54),
-                    ),
-                  ),
-                  child: Text(
-                    backText,
-                    style: ThemeTextStyles.button.copyWith(
-                      color: AppColors.primary,
-                    ),
-                  ),
+          SizedBox(
+            width: MediaQuery
+                .of(context)
+                .size
+                .width * 0.92, // Make button width match card width
+            child: ElevatedButton(
+              onPressed: () {
+                //print("asdasd");
+                // Reset the quiz and navigate to landing page instead of questions
+                questionProviderPrincipal.reset();
+               widget.isWebRoute?
+               Navigator.pushReplacementNamed(
+                   context, WebRoutes.webHome)
+                   : Navigator.pushReplacementNamed(
+                    context, AppRoutes.landing);
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.white,
+                foregroundColor: Colors.white,
+                padding: EdgeInsets.symmetric(
+                    vertical: MediaQuery
+                        .of(context)
+                        .size
+                        .height * 0.02),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                  side: BorderSide(color: Colors.black54),
                 ),
               ),
-            ],
+              child: Text(
+                backText,
+                style: ThemeTextStyles.button.copyWith(
+                  color: AppColors.primary,
+                ),
+              ),
+            ),
           ),
         ],
       ),

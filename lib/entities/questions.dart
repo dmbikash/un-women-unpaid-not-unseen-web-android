@@ -82,7 +82,7 @@
   {
     'title': 'Healthcare Support',
     'question_key': 'health_care_support',
-    'imagePath': 'assets/Image/helthcare_support.png',
+    'imagePath': 'assets/Image/healthcare_support.png',
     'defaultHours': 3.0,
      'points_men': 60,
     'points_women': 50,

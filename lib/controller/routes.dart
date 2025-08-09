@@ -68,48 +68,48 @@ class AppRoutes {
 
 
 class WebRoutes {
-  static const String splash = '/splash';
-  static const String home = '/';
-  static const String calculator = '/calculator';
-  static const String result = '/result';
-  static const String temp = '/temp';
-  static const String questions = '/questions';
-  static const String landing = '/landing';
-  static const String shareResult = '/share_result';
+  //static const String splash = '/splash';
+  static const String webHome = '/calculator';
+ // static const String calculator = '/calculator';
+  static const String webResult = '/result';
+ // static const String temp = '/temp';
+ // static const String questions = '/questions';
+ // static const String landing = '/landing';
+  static const String webShareResult = '/share_result';
 
   static Map<String, Widget Function(BuildContext)> routes = {
     //splash: (context) => const SplashScreen(),
-    home: (context) => const CalculatorScreen(),
+    webHome: (context) => const CalculatorScreen(),
 
     // calculator: (context) => const CalculatorPage(),
-    // result: (context) =>  ResultPage(),
+    webResult: (context) =>  ResultPage(isWebRoute: true,),
     // temp: (context) => const TempPage(),
     // questions: (context) => const QuestionsScreen(),
     // landing: (context) => const LandingPage(),
-    // shareResult: (context) =>  ShareResultPage(),
+    webShareResult: (context) =>  ShareResultPage(isWebRoute: true,),
   };
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     // For routes that need arguments
     switch (settings.name) {
-      case splash:
-        return MaterialPageRoute(builder: (context) => const SplashScreen());
-      case home:
+    //  case splash:
+      //  return MaterialPageRoute(builder: (context) => const SplashScreen());
+      case webHome:
         return MaterialPageRoute(builder: (context) => const HomePage());
-      case calculator:
-        return MaterialPageRoute(builder: (context) => const CalculatorPage());
-      case result:
+     // case calculator:
+     //   return MaterialPageRoute(builder: (context) => const CalculatorPage());
+      case webResult:
       // Handle arguments if needed
         final args = settings.arguments;
         return MaterialPageRoute(
             builder: (context) =>  ResultPage(), settings: settings);
-      case temp:
-        return MaterialPageRoute(builder: (context) => const TempPage());
-      case questions:
-        return MaterialPageRoute(builder: (context) => const QuestionsScreen());
-      case landing:
+    //  case temp:
+     //   return MaterialPageRoute(builder: (context) => const TempPage());
+   //   case questions:
+  //      return MaterialPageRoute(builder: (context) => const QuestionsScreen());
+   //   case landing:
         return MaterialPageRoute(builder: (context) => const LandingPage());
-      case shareResult:
+      case webShareResult:
         return MaterialPageRoute(
             builder: (context) =>  ShareResultPage(), settings: settings);
       default:

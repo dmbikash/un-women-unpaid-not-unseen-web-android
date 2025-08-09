@@ -150,7 +150,7 @@ class QuestionService {
         id: '10',
         questionKey: 'health_care_support',
         answers: yesNoAnswers,
-        logoPath: 'assets/Image/helthcare_support.png',
+        logoPath: 'assets/Image/healthcare_support.png',
         pointValue: activityScores['health_care_support'] ?? 0,
         hourOptions: standardHourOptions,
       ),

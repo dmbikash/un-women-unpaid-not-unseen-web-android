@@ -57,11 +57,11 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
 
     return PageScaffold(
       title: i18n[langService.currentLanguage]?['result_page']?['title'] ?? 'Unpaid Work Calculator',
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: kDebugMode ?FloatingActionButton(
         onPressed: () {
           _navigateToResults( );
         },
-      ),
+      ):null,
       showBackButton: false,
       body:  Center(
         child: QuestionCard(
@@ -103,7 +103,7 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
   // Method to safely navigate to results page
   void _navigateToResults() {
 
-    Navigator.of(context).pushReplacementNamed(WebRoutes.result, );
+    Navigator.of(context).pushReplacementNamed(WebRoutes.webResult, );
 
 
   }

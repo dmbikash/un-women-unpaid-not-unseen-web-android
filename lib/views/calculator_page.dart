@@ -86,7 +86,7 @@ class _CalculatorPageState extends State<CalculatorPage> {
                 ElevatedButton(
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
-                      Navigator.pushNamed(context, WebRoutes.result);
+                      Navigator.pushNamed(context, WebRoutes.webResult);
                     }
                   },
                   style: ElevatedButton.styleFrom(

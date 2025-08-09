@@ -2,14 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 
 class QuestionProviderPrincipal with ChangeNotifier {
-
   TextEditingController userName = TextEditingController();
 
   String? selectedGender = null;
 
   List<Map> answerSheet = [];
 
-  Map answerSample = {"task_name": "task name", "question": "question", "answer": false, "gender": "Male", "point": 0, "hour": 1.5, "total_point": 0.0};
+  Map answerSample = {
+    "task_name": "task name",
+    "question": "question",
+    "answer": false,
+    "gender": "Male",
+    "point": 0,
+    "hour": 1.5,
+    "total_point": 0.0,
+  };
 
   void addAnswer({
     required String questionKey,
@@ -40,33 +47,91 @@ class QuestionProviderPrincipal with ChangeNotifier {
     };
 
     print("---------");
-    answerSheet.add(answerSample);
+
+    if (answerSheet.any((element) {
+      return element.containsValue(questionKey);
+    })) {
+      /// do nothing
+    } else {
+      answerSheet.add(answerSample);
+    }
     print(answerSheet);
-
   }
 
-  double getGrandTotalPoint(){
-    double sum=0;
-    for(var anser in answerSheet){
-      sum = sum+anser["total_point"];
+  void updateAnswer({
+    required String key,
+    required double value,
+    required String questionKey,
+  }) {
+    int index = answerSheet.indexWhere((map) => map.containsValue(questionKey));
+    if (index != -1) {
+      // Key exists — update the value
+      answerSheet[index][key] = value;
+      print(answerSheet);
+      notifyListeners();
+    } else {
+      // Key not found
+      print("value: '$value' not found in any map");
+    }
+  }
+
+  void removeAnswerFromSheet({required String questionKey}) {
+    int index = answerSheet.indexWhere((map) => map.containsValue(questionKey));
+    if (index != -1) {
+      // Key exists — update the value
+      answerSheet.removeAt(index);
+      print(answerSheet);
+      notifyListeners();
+    } else {
+      // Key not found
+      print("value '$questionKey' not found in any map");
+    }
+    // notifyListeners();
+  }
+
+  double getHoursByKey({required String questionKey}) {
+    int index = answerSheet.indexWhere((map) => map.containsValue(questionKey));
+    if (index != -1) {
+      // Key exists — update the value
+      return answerSheet[index]["hour"];
+    } else {
+      // Key not found
+      return 0.0;
+      print("value '$questionKey' not found in any map");
+    }
+    // notifyListeners();
+  }
+
+  double getGrandTotalPoint() {
+    double sum = 0;
+    for (var anser in answerSheet) {
+      sum = sum + anser["total_point"];
     }
     return sum;
   }
-  double getGrandTotalHour(){
-    double sum=0;
-    for(var anser in answerSheet){
-      sum = sum+anser["hour"];
+
+  double getGrandTotalHour() {
+    double sum = 0;
+    for (var anser in answerSheet) {
+      sum = sum + anser["hour"];
     }
     return sum;
   }
 
-  void reset(){
+  void reset() {
     answerSheet = [];
     userName.clear();
-    selectedGender=null;
-   // notifyListeners();
+    selectedGender = null;
+    // notifyListeners();
   }
-  void initStart(){
+
+  void initStart() {
     answerSheet = [];
   }
+
+  void refresh() {
+    notifyListeners();
+  }
+
+  ///  web implementation
 }

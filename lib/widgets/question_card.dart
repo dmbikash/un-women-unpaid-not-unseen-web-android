@@ -48,7 +48,7 @@ class _QuestionCardState extends State<QuestionCard> {
   }
 
   void _navigateToResults() {
-    Navigator.of(context).pushReplacementNamed(WebRoutes.result, );
+    Navigator.of(context).pushReplacementNamed(AppRoutes.result, );
 
   }
 

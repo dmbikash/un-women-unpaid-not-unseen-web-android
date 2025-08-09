@@ -20,7 +20,10 @@ late QuestionProviderPrincipal questionProviderPrincipal;
 class _LandingPageState extends State<LandingPage> {
   @override
   void initState() {
-    questionProviderPrincipal = Provider.of<QuestionProviderPrincipal>(context,listen: false);
+    questionProviderPrincipal = Provider.of<QuestionProviderPrincipal>(
+      context,
+      listen: false,
+    );
 
     super.initState();
   }
@@ -105,7 +108,6 @@ class _LandingPageState extends State<LandingPage> {
                 SizedBox(height: screenHeight * 0.06),
 
                 // Start button - no animation
-
                 const SizedBox(height: 8),
                 Row(
                   children: [
@@ -118,7 +120,11 @@ class _LandingPageState extends State<LandingPage> {
                           filled: true,
                           fillColor: Colors.white,
                           label: Text("Name"),
-                          labelStyle: TextStyle(color: Colors.black, fontWeight: FontWeight.w500,backgroundColor: Colors.white),
+                          labelStyle: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.w500,
+                            backgroundColor: Colors.white,
+                          ),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8),
                             borderSide: BorderSide.none,
@@ -126,9 +132,14 @@ class _LandingPageState extends State<LandingPage> {
                         ),
                       ),
                     ),
-                    Expanded(child: _buildDropdown("Gender", null,[ "Woman","Man"], (gender){
-                      questionProviderPrincipal.selectedGender = gender;
-                    })),
+                    Expanded(
+                      child: _buildDropdown("Gender", null, ["Woman", "Man"], (
+                        gender,
+                      ) {
+                        questionProviderPrincipal.selectedGender = gender;
+                      },
+                      ),
+                    ),
                   ],
                 ),
                 const SizedBox(height: 24),
@@ -138,9 +149,9 @@ class _LandingPageState extends State<LandingPage> {
                   height: screenHeight * 0.07,
                   child: ElevatedButton(
                     onPressed: () {
-
-                      if(questionProviderPrincipal.selectedGender==null || questionProviderPrincipal.userName==""){
-                        if(questionProviderPrincipal.userName==""){
+                      if (questionProviderPrincipal.selectedGender == null ||
+                          questionProviderPrincipal.userName == "") {
+                        if (questionProviderPrincipal.userName == "") {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
                               content: Text('Please Enter Name '),
@@ -148,7 +159,7 @@ class _LandingPageState extends State<LandingPage> {
                             ),
                           );
                         }
-                        if(questionProviderPrincipal.selectedGender==null ){
+                        if (questionProviderPrincipal.selectedGender == null) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
                               content: Text('Please Select Gender '),
@@ -156,14 +167,10 @@ class _LandingPageState extends State<LandingPage> {
                             ),
                           );
                         }
-
-
-                      }else{
+                      } else {
                         questionProviderPrincipal.initStart();
-                        Navigator.pushNamed(context, WebRoutes.questions);
-
+                        Navigator.pushNamed(context, AppRoutes.questions);
                       }
-
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.white,
@@ -229,26 +236,36 @@ class _LandingPageState extends State<LandingPage> {
   }
 
   Widget _buildDropdown(
-      String label,
-      String? value,
-      List<String> options,
-      void Function(String?) onChanged,
-      ) {
+    String label,
+    String? value,
+    List<String> options,
+    void Function(String?) onChanged,
+  ) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: DropdownButtonFormField<String>(
         value: value,
         isExpanded: true,
-        items: options
-            .map((option) => DropdownMenuItem(
-          value: option,
-          child: Text(option, style: TextStyle(color: Colors.black)),
-        ))
-            .toList(),
+        items:
+            options
+                .map(
+                  (option) => DropdownMenuItem(
+                    value: option,
+                    child: Text(option, style: TextStyle(color: Colors.black)),
+                  ),
+                )
+                .toList(),
         decoration: InputDecoration(
           labelText: label,
-          labelStyle: TextStyle(color: Colors.black, fontWeight: FontWeight.w500,backgroundColor: Colors.white,),
-          contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+          labelStyle: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.w500,
+            backgroundColor: Colors.white,
+          ),
+          contentPadding: const EdgeInsets.symmetric(
+            horizontal: 16,
+            vertical: 14,
+          ),
           filled: true,
           fillColor: Colors.white,
           enabledBorder: OutlineInputBorder(
@@ -269,9 +286,9 @@ class _LandingPageState extends State<LandingPage> {
           ),
         ),
         onChanged: onChanged,
-        validator: (value) => value == null || value.isEmpty
-            ? 'Please select $label'
-            : null,
+        validator:
+            (value) =>
+                value == null || value.isEmpty ? 'Please select $label' : null,
       ),
     );
   }

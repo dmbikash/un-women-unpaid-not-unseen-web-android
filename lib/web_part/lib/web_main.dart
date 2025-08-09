@@ -41,7 +41,7 @@ class WebApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Unpaid Work Calculator',
-      initialRoute: WebRoutes.splash,
+
       // Use animation-free theme
       theme: noAnimationTheme,
       darkTheme: noAnimationTheme,
@@ -55,6 +55,7 @@ class WebApp extends StatelessWidget {
           child: child!,
         );
       },
+      initialRoute: WebRoutes.webHome,
       routes: WebRoutes.routes,
     );
   }

@@ -71,11 +71,11 @@ class HourChart extends StatelessWidget {
           value: hours,
           color: sectionColor,
           title: langService.convertNumberToBengali(hours.toStringAsFixed(1)),
-          radius: screenWidth * 0.15,
+          radius:  MediaQuery.of(context).size.width >600 ?screenWidth * 0.03 :screenWidth * 0.15,
           titleStyle: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
-            fontSize: screenWidth * 0.04,
+            fontSize: 14,
           ),
         ),
       );
@@ -95,13 +95,13 @@ class HourChart extends StatelessWidget {
               Expanded(
                 child: Text(
                   activityName,
-                  style: TextStyle(fontSize: screenWidth * 0.035),
+                  style: TextStyle(fontSize: 14),
                 ),
               ),
               Text(
                 '${langService.convertNumberToBengali(hours.toStringAsFixed(1))} ${i18n[langService.currentLanguage]?['share_result_page']?['hours_suffix'] ?? 'hrs'}',
                 style: TextStyle(
-                  fontSize: screenWidth * 0.035,
+                  fontSize: 14,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -133,7 +133,7 @@ class HourChart extends StatelessWidget {
               i18n[langService.currentLanguage]?['share_result_page']?['weekly_hours_breakdown'] ??
                   'Weekly Hours Breakdown',
               style: TextStyle(
-                fontSize: screenWidth * 0.045,
+                fontSize:18,
                 fontWeight: FontWeight.bold,
                 color: AppColors.primary,
               ),
@@ -142,9 +142,10 @@ class HourChart extends StatelessWidget {
 
             // Chart
             SizedBox(
-              height: screenHeight * 0.25,
+              height: screenWidth>600 ?500 : screenHeight * 0.25,
               child: PieChart(
                 PieChartData(
+
                   sections: sections,
                   centerSpaceRadius: screenWidth * 0.1,
                   sectionsSpace: 2,

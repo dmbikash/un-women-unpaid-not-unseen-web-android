@@ -17,7 +17,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
     // Navigate after a short delay without animations
     Timer(const Duration(milliseconds: 1000), () {
-      Navigator.pushReplacementNamed(context, WebRoutes.landing);
+      Navigator.pushReplacementNamed(context, AppRoutes.landing);
     });
   }
 
