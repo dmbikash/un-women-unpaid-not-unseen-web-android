@@ -23,12 +23,12 @@ class HourOptionSelector extends StatefulWidget {
 }
 
 class _HourOptionSelectorState extends State<HourOptionSelector> {
-  double _selectedHours = 20.0;
+  double _selectedHours = 3.0;
 
   @override
   void initState() {
     super.initState();
-    _selectedHours = 20.0; // Always start with 1
+    _selectedHours = 3.0; // Always start with 1
   }
 
   @override
@@ -183,7 +183,7 @@ class _HourOptionSelectorState extends State<HourOptionSelector> {
                 if (_selectedHours > 1) {
                   setState(() {
                     _selectedHours =
-                        (_selectedHours - 0.5).clamp(1.0, 90.0);
+                        (_selectedHours - 0.5).clamp(1.0, 24);
                   });
                 }
               },
@@ -239,8 +239,8 @@ class _HourOptionSelectorState extends State<HourOptionSelector> {
                         padding: EdgeInsets.zero,
                         value: _selectedHours,
                         min: 1,
-                        max: 60,
-                        divisions: 60,
+                        max: 24,
+                        divisions: 48,
                         // 90 * 2 for 0.5 step precision
                         label: langService.convertNumberToBengali(
                             _selectedHours.toStringAsFixed(1)),
@@ -269,7 +269,7 @@ class _HourOptionSelectorState extends State<HourOptionSelector> {
                         ),
                         Text(
                           '${langService.convertNumberToBengali(
-                              "20")}h',
+                              "8")}h',
                           style: TextStyle(
                             fontSize: screenWidth * 0.028,
                             color: Colors.grey.shade700,
@@ -278,7 +278,7 @@ class _HourOptionSelectorState extends State<HourOptionSelector> {
                         ),
                         Text(
                           '${langService.convertNumberToBengali(
-                              "40")}h',
+                              "16")}h',
                           style: TextStyle(
                             fontSize: screenWidth * 0.028,
                             color: Colors.grey.shade700,
@@ -287,7 +287,7 @@ class _HourOptionSelectorState extends State<HourOptionSelector> {
                         ),
                         Text(
                           '${langService.convertNumberToBengali(
-                              "60")}h',
+                              "24")}h',
                           style: TextStyle(
                             fontSize: screenWidth * 0.028,
                             color: Colors.grey.shade700,
@@ -309,10 +309,10 @@ class _HourOptionSelectorState extends State<HourOptionSelector> {
             _buildAdjustmentButton(
               icon: Icons.add,
               onPressed: () {
-                if (_selectedHours < 90) {
+                if (_selectedHours < 24) {
                   setState(() {
                     _selectedHours =
-                        (_selectedHours + 0.5).clamp(1.0, 90.0);
+                        (_selectedHours + 0.5).clamp(1.0, 24);
                   });
                 }
               },

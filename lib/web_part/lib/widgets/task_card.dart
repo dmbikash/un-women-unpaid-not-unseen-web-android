@@ -81,7 +81,7 @@ class _TaskCardState extends State<TaskCard> {
           /// on card/box tap
           onTap: () {
             if(questionProviderPrincipal.userName==""|| questionProviderPrincipal.selectedGender==null){
-              customPopUpModal("Please Enter Your Name and Select Your Gender",202,context, children: [
+              customPopUpModal("Please Enter Your Name and Select Your Sex",202,context, children: [
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
                   child: TextField(
@@ -110,10 +110,10 @@ class _TaskCardState extends State<TaskCard> {
                   ),
                 ),
                 buildDropdown(
-                  "Gender", null, ["Woman", "Man"], (gender,) {
+                  "Sex", null, ["Woman", "Man"], (gender,) {
                   questionProviderPrincipal.selectedGender = gender;
                   questionProviderPrincipal.refresh();
-                },
+                  },
                 ),
               ]);
             }else{

@@ -2,6 +2,8 @@ import 'package:unwomen_unpaid_not_unseen/controller/routes.dart';
 import 'package:unwomen_unpaid_not_unseen/views/landing_page.dart';
 
 
+import '../../../design/text/textStyles.dart';
+import '../../../design/themes/colors.dart';
 import '../../../entities/questions.dart';
 import '../../../providers/question_provider_principal.dart';
 import '../../../services/language_service.dart';
@@ -47,6 +49,7 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final langService = Provider.of<LanguageServiceMobile>(context);
     final size = MediaQuery
         .of(context)
         .size;
@@ -75,6 +78,38 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
               height: 32,
               fit: BoxFit.contain,
               color: Colors.white,
+            ),
+            Expanded(child: SizedBox()),
+            Align(
+              alignment: Alignment.bottomRight,
+              child: SizedBox(
+                width: 200,
+                height: 80,
+                child: ElevatedButton(
+                  onPressed: () {
+                    langService.toggleLanguage();
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.primary.withOpacity(0.2),
+                    foregroundColor: Colors.white,
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                      side: BorderSide(color: Colors.white),
+                    ),
+                  ),
+                  child: Text(
+                    langService.isEnglish()
+                        ? 'বাংলা ভাষায় দেখুন' // Show in Bengali
+                        : 'View in English', // Show in English
+                    style: ThemeTextStyles.button.copyWith(
+                      fontSize:  16,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
             ),
           ],
         ),
@@ -231,7 +266,8 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Select Your Care Work Tasks \nGive Total Work Hours (Weekly)',
+                  i18n[langService
+                      .currentLanguage]?["landing_page"]?["select_card_note"]??'Select Your Care Work Tasks \nGive Total Work Hours (Daily)',
                   style: AppTextStyles.h2(context),
                 ),
                 const SizedBox(height: 16),
@@ -280,7 +316,9 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Text(
-                  'Your Unpaid Work Value',
+                  i18n[langService
+                      .currentLanguage]?['result_page']?['your_unpaid_work_value'] ??
+                      "Your Unpaid Work Value",
                   style: AppTextStyles.h2(context, color: Colors.white),
                 ),
                 // const SizedBox(height: 8),
@@ -312,7 +350,7 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                             ),
                           ),
                           Expanded(child: buildDropdown(
-                            "Gender",  questionProvider.selectedGender, ["Woman", "Man"], (gender,) {
+                            "Sex",  questionProvider.selectedGender, ["Woman", "Man"], (gender,) {
                             questionProvider.selectedGender = gender;
                             questionProvider.refresh();
                           },
@@ -344,7 +382,9 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                               ),
                               SizedBox(height: 15,),
                               Text(
-                                'Total Hours',
+                                i18n[langService
+                                    .currentLanguage]?['share_result_page']?['total_hour'] ??
+                                    'Total Value',
                                 style: TextStyle(fontWeight: FontWeight.bold,
                                     fontSize: 18,
                                     color: Color(0xff2599D8)),
@@ -355,8 +395,7 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                         ),
                         const SizedBox(width: 20),
                         Container(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 10, vertical: 15),
+                          padding: EdgeInsets.all(10),
                           margin: EdgeInsets.all(10),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
@@ -365,14 +404,18 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                           child: Column(
                             children: [
                               Text(
-                                questionProvider.getGrandTotalPoint().toString(),
+                                questionProvider.getGrandTotalPoint().toStringAsFixed(1),
                                 style: TextStyle(fontWeight: FontWeight.bold,
                                     fontSize: 28,
-                                    color: Color(0xff2599D8)),
+                                    color: Color(0xff2599D8,),),
                               ),
+
                               SizedBox(height: 15,),
+
                               Text(
-                                'Total Points',
+                    i18n[langService
+                        .currentLanguage]?['share_result_page']?['total_value'] ??
+                    'Total Value',
                                 // style: AppTextStyles.normal(context, color: Colors.white),
                                 style: TextStyle(fontWeight: FontWeight.bold,
                                     fontSize: 18,
@@ -427,6 +470,8 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                     ElevatedButton.icon(
                       onPressed: () {
                         "do something";
+                       questionProviderPrincipal.reset();
+                        Navigator.pushReplacementNamed(context, WebRoutes.webHome);
                       },
                       style: ElevatedButton.styleFrom(
                         padding: const EdgeInsets.symmetric(
@@ -438,7 +483,9 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                       icon: const Icon(
                         Icons.refresh, color: Color(0xFF0099D8),),
                       label: Text(
-                        'Reset Values',
+                        i18n[langService
+                            .currentLanguage]?['share_result_page']?['reset'] ??
+                            'Reset Values',
                         style: AppTextStyles.buttonText(context, color: Color(
                             0xFF0099D8)),
                       ),
@@ -486,7 +533,9 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                         ),
                         icon: Icon(Icons.list),
                         label: Text(
-                          'View Result',
+    i18n[langService
+        .currentLanguage]?['share_result_page']?['view_result'] ??
+    'Total Value',
                           style: AppTextStyles.buttonText(context,
                               color: Color(0xFF0099D8)),
                         ),

@@ -119,7 +119,9 @@ class _LandingPageState extends State<LandingPage> {
                           hintText: 'Enter your name',
                           filled: true,
                           fillColor: Colors.white,
-                          label: Text("Name"),
+                          label: Text(  i18n[langService
+                              .currentLanguage]?['landing_page']?['name']??"Name",
+                          ),
                           labelStyle: TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.w500,
@@ -133,7 +135,8 @@ class _LandingPageState extends State<LandingPage> {
                       ),
                     ),
                     Expanded(
-                      child: _buildDropdown("Gender", null, ["Woman", "Man"], (
+                      child: _buildDropdown(i18n[langService
+                          .currentLanguage]?['landing_page']?['gender']??"Sex", null, ["Woman", "Man"], (
                         gender,
                       ) {
                         questionProviderPrincipal.selectedGender = gender;
@@ -162,7 +165,7 @@ class _LandingPageState extends State<LandingPage> {
                         if (questionProviderPrincipal.selectedGender == null) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
-                              content: Text('Please Select Gender '),
+                              content: Text('Please Select Sex '),
                               duration: Duration(seconds: 2), // optional
                             ),
                           );

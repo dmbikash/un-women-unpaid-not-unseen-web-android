@@ -44,6 +44,8 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
       setState(() {
         this.index = index+1;
       });
+    }else{
+     _navigateToResults();
     }
     print("index  $index");
 
@@ -73,12 +75,12 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
           question: i18n[langService.currentLanguage]?["questions"]?[questionList[index]["question_key"]],
           title: questionList[index]["question_key"],
           onAnswer: (String title,String question, bool answer, double hour) {
-            if (index < totalQuestion-1) {
+            if (index < totalQuestion) {
               print("question : $question");
               print("answer : $answer");
               print("Hour : $hour");
 
-                incrementIndex(index);
+
 
               int point = questionProviderPrincipal.selectedGender != null && questionProviderPrincipal.selectedGender=="Man" ? questionList[index]["points_men"]:  questionList[index]["points_women"];
               
@@ -88,7 +90,12 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
                   hour: hour,
                   totalPoint: totalPoint,
               );
+
+
+              incrementIndex(index);
+
             }else{
+              print(index);
               _navigateToResults();
             }
           },

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import '../design/text/textStyles.dart';
 import '../design/themes/colors.dart';
+import '../services/language_service.dart';
 import 'custom_header.dart';
+import 'package:provider/provider.dart';
 
 class PageScaffold extends StatelessWidget {
   final String title;
@@ -13,6 +16,7 @@ class PageScaffold extends StatelessWidget {
   final bool resizeToAvoidBottomInset;
   final PreferredSizeWidget? appBar;
   final bool ensureScrollable;
+  final bool showLanguageButton;
 
   final bool topBranding;
 
@@ -29,10 +33,12 @@ class PageScaffold extends StatelessWidget {
     this.resizeToAvoidBottomInset = true,
     this.appBar,
     this.ensureScrollable = true,
+    this.showLanguageButton = false,
   });
 
   @override
   Widget build(BuildContext context) {
+    final langService = Provider.of<LanguageServiceMobile>(context);
     return Scaffold(
       backgroundColor:AppColors.primary,
       //appBar: appBar,
@@ -75,6 +81,34 @@ class PageScaffold extends StatelessWidget {
                   height: 50,
                   width: 45,
                   fit: BoxFit.contain,
+                ),
+              ),
+                 if(showLanguageButton)SizedBox(
+                width: 200,
+                height: 80,
+                child: ElevatedButton(
+                  onPressed: () {
+                    langService.toggleLanguage();
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.primary.withOpacity(0.2),
+                    foregroundColor: Colors.white,
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                      side: BorderSide(color: Colors.white),
+                    ),
+                  ),
+                  child: Text(
+                    langService.isEnglish()
+                        ? 'বাংলা ভাষায় দেখুন' // Show in Bengali
+                        : 'View in English', // Show in English
+                    style: ThemeTextStyles.button.copyWith(
+                      fontSize:  16,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.white,
+                    ),
+                  ),
                 ),
               ),
             ],

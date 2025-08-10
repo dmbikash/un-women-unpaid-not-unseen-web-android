@@ -111,7 +111,7 @@ class _QuestionCardState extends State<QuestionCard> {
 
                     // Question text
                     Container(
-                      height: 100,
+                      height: 120,
                       //color: Colors.red,
                       child: Center(
                         child: Text(
@@ -122,7 +122,7 @@ class _QuestionCardState extends State<QuestionCard> {
                             color: AppColors.black,
                           ),
                           textAlign: TextAlign.center,
-                          maxLines: 3,
+                          maxLines: 4,
                         ),
                       ),
                     ),

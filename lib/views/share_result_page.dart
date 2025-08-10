@@ -449,6 +449,7 @@ class _ShareResultPageState extends State<ShareResultPage> {
                     ListView.builder(
                         shrinkWrap: true,
                         itemCount: questionProviderPrincipal.answerSheet.length,
+                        physics: NeverScrollableScrollPhysics(),
                         itemBuilder: (context, index){
                           List answerList = questionProviderPrincipal.answerSheet;
                           return _buildActivityRow(
@@ -458,7 +459,7 @@ class _ShareResultPageState extends State<ShareResultPage> {
                               .currentLanguage]?['activity_names']?[answerList[index]["question_key"]] ?? "N/A",
                             /// total  hours
                             "${langService.convertNumberToBengali(
-                                answerList[index]["hour"].toString())} "
+                                answerList[index]["hour"].toStringAsFixed(1))} "
                                 // "${i18n[langService
                                 // .currentLanguage]?['result_page']?['points_suffix'] ??
                                 // 'points'}"
@@ -466,7 +467,7 @@ class _ShareResultPageState extends State<ShareResultPage> {
                             /// total points
 
                             "${langService.convertNumberToBengali(
-                                answerList[index]["total_point"].toString())} "
+                                answerList[index]["total_point"].toStringAsFixed(1))} "
                                 // "${i18n[langService
                                 // .currentLanguage]?['result_page']?['points_suffix'] ??
                                 // 'points'}"
@@ -511,9 +512,10 @@ class _ShareResultPageState extends State<ShareResultPage> {
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
                             ),
-                            textAlign: TextAlign.center,
+                            textAlign: TextAlign.right,
                           ),
                         ),
+                        // grand total
                         Expanded(
                           flex: 2,
                           child: Text(

@@ -67,6 +67,7 @@ class QuestionProviderPrincipal with ChangeNotifier {
     if (index != -1) {
       // Key exists — update the value
       answerSheet[index][key] = value;
+      answerSheet[index]["total_point"] = value* (selectedGender=="Man" ||selectedGender==null ? 60:50);
       print(answerSheet);
       notifyListeners();
     } else {

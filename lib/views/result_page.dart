@@ -80,86 +80,23 @@ class _ResultPageState extends State<ResultPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Card(
-                      color: Colors.white,
-                      elevation: 2,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16.0),
-                      ),
-                      child: Padding(
-                        padding: EdgeInsets.all(MediaQuery
-                            .of(context)
-                            .size
-                            .width * 0.06,
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text(
-                              i18n[langService
-                                  .currentLanguage]?['result_page']?['your_unpaid_work_value'] ??
-                                  "Your Unpaid Work Value",
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w600,
-                                color: AppColors.primary,
-                              ),
-                              textAlign: TextAlign.center,
-                            ),
-                            SizedBox(height: MediaQuery
-                                .of(context)
-                                .size
-                                .height * 0.02,),
-                            Container(
-                              width: double.infinity,
-                              padding: EdgeInsets.symmetric(
-                                horizontal: MediaQuery
-                                    .of(context)
-                                    .size
-                                    .width * 0.04,
-                                vertical: MediaQuery
-                                    .of(context)
-                                    .size
-                                    .height * 0.02,
-                              ),
-                              decoration: BoxDecoration(
-                                color: Colors.lightBlue.shade50,
-                                borderRadius: BorderRadius.circular(16),
-                                border: Border.all(color: Colors.lightBlue.shade100),
-                              ),
-                              child: Text(
-                                "${langService.convertNumberToBengali(
-                                    questionProviderPrincipal.getGrandTotalPoint().toStringAsFixed(2))} ${i18n[langService
-                                    .currentLanguage]?['result_page']?['value'] ??
-                                    'Points'}",
-                                style: TextStyle(
-                                  fontSize: 28,
-                                  fontWeight: FontWeight.bold,
-                                  color: AppColors.primary,
-                                ),
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                            SizedBox(height: MediaQuery
-                                .of(context)
-                                .size
-                                .height * 0.02),
-                            Text(
-                              i18n[langService
-                                  .currentLanguage]?['result_page']?['weekly_value'] ??
-                                  "Weekly value of your unpaid work contribution",
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Colors.grey.shade600,
-                                fontWeight: FontWeight.w400,
-                              ),
-                              textAlign: TextAlign.center,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
+                    TopCardTotalPoints(langService: langService, questionProviderPrincipal: questionProviderPrincipal, headerText:  i18n[langService
+                        .currentLanguage]?['result_page']?['your_unpaid_work_value'] ??
+                        "Your Unpaid Work Value", bottomText:  i18n[langService
+                        .currentLanguage]?['result_page']?['weekly_value'] ??
+                        "Weekly value of your unpaid work contribution",),
+                    SizedBox(height: MediaQuery
+                        .of(context)
+                        .size
+                        .height * 0.01),
+                    // TopCardTotalPoints(langService: langService, questionProviderPrincipal: questionProviderPrincipal, headerText:  i18n[langService
+                    //     .currentLanguage]?['result_page']?['your_unpaid_work_value'] ??
+                    //     "Your Unpaid Work Value", bottomText:  i18n[langService
+                    //     .currentLanguage]?['result_page']?['weekly_value'] ??
+                    //     "Weekly value of your unpaid work contribution",),
+
+
+
                     SizedBox(height: MediaQuery
                         .of(context)
                         .size
@@ -183,6 +120,7 @@ class _ResultPageState extends State<ResultPage> {
                               i18n[langService
                                   .currentLanguage]?['result_page']?['breakdown'] ??
                                   "Breakdown",
+
                               style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.w600,
@@ -196,6 +134,7 @@ class _ResultPageState extends State<ResultPage> {
 
                                 ListView.builder(
                                   shrinkWrap: true,
+                                  physics: NeverScrollableScrollPhysics(),
                                   itemCount: questionProviderPrincipal.answerSheet.length,
                                     itemBuilder: (context, index){
                                     List answerList = questionProviderPrincipal.answerSheet;
@@ -364,5 +303,212 @@ class _ResultPageState extends State<ResultPage> {
         ],
       ),
     ):SizedBox();
+  }
+}
+
+class TopCardTotalPoints extends StatelessWidget {
+  const TopCardTotalPoints({
+    super.key,
+    required this.langService,
+    required this.headerText,
+    required this.bottomText,
+
+    required this.questionProviderPrincipal,
+  });
+
+  final LanguageServiceMobile langService;
+  final QuestionProviderPrincipal questionProviderPrincipal;
+
+  final String headerText;
+
+  final String bottomText;
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      color: Colors.white,
+      elevation: 2,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16.0),
+      ),
+      child: Padding(
+        padding: EdgeInsets.all(MediaQuery
+            .of(context)
+            .size
+            .width * 0.06,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+             headerText,
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w600,
+                color: AppColors.primary,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(height: MediaQuery
+                .of(context)
+                .size
+                .height * 0.02,),
+            Container(
+              width: double.infinity,
+              padding: EdgeInsets.symmetric(
+                horizontal: MediaQuery
+                    .of(context)
+                    .size
+                    .width * 0.04,
+                vertical: MediaQuery
+                    .of(context)
+                    .size
+                    .height * 0.02,
+              ),
+              decoration: BoxDecoration(
+                color: Colors.lightBlue.shade50,
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(color: Colors.lightBlue.shade100),
+              ),
+              child: Text(
+                "${langService.convertNumberToBengali(
+                    questionProviderPrincipal.getGrandTotalPoint().toStringAsFixed(2))} ${i18n[langService
+                    .currentLanguage]?['result_page']?['points_suffix'] ??
+                    'Points'}",
+                style: TextStyle(
+                  fontSize: 28,
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.primary,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ),
+            SizedBox(height: MediaQuery
+                .of(context)
+                .size
+                .height * 0.02),
+            Text(
+             bottomText,
+              style: TextStyle(
+                fontSize: 14,
+                color: Colors.grey.shade600,
+                fontWeight: FontWeight.w400,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(height: MediaQuery
+                .of(context)
+                .size
+                .height * 0.02),
+            Row(children: 
+            [ Expanded(
+              child: Container(
+                width: double.infinity,
+                padding: EdgeInsets.symmetric(
+                  horizontal: MediaQuery
+                      .of(context)
+                      .size
+                      .width * 0.04,
+                  vertical: MediaQuery
+                      .of(context)
+                      .size
+                      .height * 0.02,
+                ),
+                decoration: BoxDecoration(
+                  color: Colors.lightBlue.shade50,
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(color: Colors.lightBlue.shade100),
+                ),
+                child: Column(
+                  children: [
+                    Text(
+                      " ${i18n[langService
+                          .currentLanguage]?['result_page']?['weekly'] ??
+                          'Weekly'}",
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.primary,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    Divider(),
+                    Text(
+                      "${langService.convertNumberToBengali(
+                          (questionProviderPrincipal.getGrandTotalPoint()*7).toStringAsFixed(2))} ${i18n[langService
+                          .currentLanguage]?['result_page']?['points_suffix'] ??
+                          'Points'}",
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.primary,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+
+              SizedBox(width: 20,),
+
+
+              Expanded(
+              child: Container(
+                width: double.infinity,
+                padding: EdgeInsets.symmetric(
+                  horizontal: MediaQuery
+                      .of(context)
+                      .size
+                      .width * 0.04,
+                  vertical: MediaQuery
+                      .of(context)
+                      .size
+                      .height * 0.02,
+                ),
+                decoration: BoxDecoration(
+                  color: Colors.lightBlue.shade50,
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(color: Colors.lightBlue.shade100),
+                ),
+                child: Column(
+                  children: [
+                    Text(
+                          " ${i18n[langService
+                          .currentLanguage]?['result_page']?['monthly'] ??
+                          'Monthly'}",
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.primary,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    Divider(),
+                    Text(
+                      "${langService.convertNumberToBengali(
+                          (questionProviderPrincipal.getGrandTotalPoint()*30).toStringAsFixed(2))} ${i18n[langService
+                          .currentLanguage]?['result_page']?['points_suffix'] ??
+                          'Points'}",
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.primary,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
+                ),
+              ),
+            ),],),
+            SizedBox(height: 20,),
+            Text(i18n[langService
+                .currentLanguage]?['result_page']?['weekly_value'] ??
+                "Weekly value of your unpaid work contribution",)
+          ],
+        ),
+      ),
+    );
   }
 }

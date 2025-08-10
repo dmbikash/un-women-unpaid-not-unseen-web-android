@@ -13,7 +13,7 @@ class WebWrapper extends StatelessWidget {
     if (isMobileOrPortrait) {
       // Mobile / small screen layout → no side flex
       return SingleChildScrollView(
-        physics: const ClampingScrollPhysics(),
+        physics: ScrollPhysics(),
         child: Padding(
           padding: const EdgeInsets.all(10),
           child: Column(
@@ -31,10 +31,12 @@ class WebWrapper extends StatelessWidget {
             flex: 4,
             child: Padding(
               padding: const EdgeInsets.all(10),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: children,
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: children,
+                ),
               ),
             ),
           ),

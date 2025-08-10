@@ -13,7 +13,7 @@ class _GenderDropdownState extends State<GenderDropdown> {
   Widget build(BuildContext context) {
     return DropdownButton<String>(
       value: selectedGender,
-      hint: Text('Select Gender'),
+      hint: Text('Select Sex'),
       items: genderOptions.map((String gender) {
         return DropdownMenuItem<String>(
           value: gender,
