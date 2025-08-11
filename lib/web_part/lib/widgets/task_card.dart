@@ -1,3 +1,5 @@
+import 'package:unwomen_unpaid_not_unseen/web_part/lib/widgets/task_card_pop_up.dart';
+
 import '../../../entities/questions.dart';
 import '../../../providers/question_provider_principal.dart';
 import '../../../widgets/dropdowns.dart';
@@ -15,6 +17,7 @@ class TaskCard extends StatefulWidget {
   final String imagePath;
    double defaultHours;
    bool isSelected;
+   bool showSlider;
   final int currentIndex;
 
    TaskCard({
@@ -25,6 +28,7 @@ class TaskCard extends StatefulWidget {
     required this.imagePath,
     required this.defaultHours,
     required this.isSelected,
+    required this.showSlider,
     required this.currentIndex,
   });
 
@@ -53,26 +57,7 @@ class _TaskCardState extends State<TaskCard> {
   @override
   Widget build(BuildContext context) {
 
-    final mq = MediaQuery.of(context);
-    final width = mq.size.width;
-    // Step-wise scale: special 700 fix for iconSize (and layout)
-    double iconSize;
-    bool is700 = width <= 700;
-    if (is700)
-      iconSize = 16;
-    else if (width > 2000)
-      iconSize = 40;
-    else if (width > 1000)
-      iconSize = 40;
-    else if (width >= 700) iconSize = 20;
-    else
-      iconSize = 20;
-    double sliderHeight = iconSize;
-    double buttonIconSize = iconSize * 0.5;
-    double columnSpacing = 3;
-    double verticalPadding = 1;
-    double horizontalPadding = 1;
-    //double hours =widget.defaultHours;
+
 
     return Consumer<QuestionProviderPrincipal>(
       builder: (context,questionProviderPrincipal, child ) {
@@ -80,6 +65,9 @@ class _TaskCardState extends State<TaskCard> {
           borderRadius: BorderRadius.circular(4),
           /// on card/box tap
           onTap: () {
+
+
+
             if(questionProviderPrincipal.userName==""|| questionProviderPrincipal.selectedGender==null){
               customPopUpModal("Please Enter Your Name and Select Your Sex",202,context, children: [
                 Padding(
@@ -118,6 +106,7 @@ class _TaskCardState extends State<TaskCard> {
               ]);
             }else{
               /// usaer info are avilable
+
               if(widget.isSelected == false){
                 widget.isSelected = true;
                 int index = widget.currentIndex;
@@ -140,6 +129,13 @@ class _TaskCardState extends State<TaskCard> {
                 questionProviderPrincipal.refresh();
 
               }
+
+              /// usaer info are avilable
+              taskModal("----------", 200, context, children: [
+
+                TaskPopUpCard(title: widget.title, question: widget.question, questionKey: widget.questionKey, imagePath: widget.imagePath, defaultHours: widget.defaultHours, isSelected: widget.isSelected, showSlider: true, currentIndex: widget.currentIndex,),
+              ]);
+
             }
 
 
@@ -161,7 +157,7 @@ class _TaskCardState extends State<TaskCard> {
                 Center(
                   child: Padding(
                     padding: EdgeInsets.symmetric(
-                        horizontal: horizontalPadding, vertical: verticalPadding),
+                        horizontal: 10, vertical: 10),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -169,41 +165,46 @@ class _TaskCardState extends State<TaskCard> {
                       children: [
                         Image.asset(
                           widget.imagePath,
-                          height: iconSize,
-                          width: iconSize,
+
+                          height: 50,
+                          width: 50,
                         ),
-                        SizedBox(height: columnSpacing),
+                        SizedBox(height: 5),
                         Text(
                           widget.title,
-                          style: AppTextStyles.fromStyle(
-                              context, AppTextStyles.normal(context),
-                              fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold
+                          ),
                           textAlign: TextAlign.center,
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                         ),
+                        SizedBox(height: 5),
                         Text(
                           '${questionProviderPrincipal.getHoursByKey(questionKey: widget.questionKey).toStringAsFixed(1)} hours',
-                          style: AppTextStyles.small(context).copyWith(
-                              color: AppColors.textSecondary),
+                          style: TextStyle(fontSize: 12),
                           textAlign: TextAlign.center,
                         ),
                       ],
                     ),
                   ),
                 ),
-                if (widget.isSelected)
+                if (widget.isSelected && widget.showSlider)
                   Positioned(
                     left: 0,
                     right: 0,
-                    bottom: is700 ? 12 : 8,
+                    bottom: true ? 12 : 8,
                     child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: is700 ? 16 : 8),
+                      padding: EdgeInsets.symmetric(horizontal: true ? 16 : 8),
                       child: _buildHoursControls(
-                          questionProviderPrincipal.getHoursByKey(questionKey: widget.questionKey), sliderHeight, buttonIconSize),
+                          questionProviderPrincipal.getHoursByKey(questionKey: widget.questionKey),
+                        10, 10,
+                        //sliderHeight, buttonIconSize
+                      ),
                     ),
                   ),
-                if (widget.isSelected && questionProviderPrincipal.getHoursByKey(questionKey: widget.questionKey) > 0)
+                if (widget.isSelected && questionProviderPrincipal.getHoursByKey(questionKey: widget.questionKey ) > 0)
                   Positioned(
                     top: 6,
                     right: 6,

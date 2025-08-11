@@ -1,10 +1,11 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 
 class QuestionProviderPrincipal with ChangeNotifier {
-  TextEditingController userName = TextEditingController();
+  TextEditingController userName = TextEditingController(text: kDebugMode? "Tester":"");
 
-  String? selectedGender = null;
+  String? selectedGender = kDebugMode? "Woman":null;
 
   List<Map> answerSheet = [];
 

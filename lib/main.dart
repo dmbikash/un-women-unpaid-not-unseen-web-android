@@ -33,7 +33,7 @@ void main() async {
         ChangeNotifierProvider(create: (_) => LanguageServiceMobile()),
         ChangeNotifierProvider(create: (_) => QuestionProviderPrincipal()),
       ],
-      child: const AppSelector(),
+      child: const WebApp(),
     ),
   );
 }

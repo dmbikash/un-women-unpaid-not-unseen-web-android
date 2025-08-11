@@ -53,26 +53,26 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
     final size = MediaQuery
         .of(context)
         .size;
-    final isTablet = size.width > 600;
-    final isMobile = size.width < 500;
+    final isWebSize = size.width > 660;
+    final isMobile = size.width < 510;
 
     return Scaffold(
       appBar: AppBar(
         title: Row(
           children: [
 
-            /// appbar
-            Text(
-              'Unpaid Work Calculator',
-              style: AppTextStyles.h1(context, color: Colors.white),
-            ),
-            const SizedBox(width: 12),
-            Container(
-              height: 28,
-              width: 1.5,
-              color: Colors.white,
-              margin: const EdgeInsets.symmetric(horizontal: 8),
-            ),
+            // /// appbar
+            // Text(
+            //   'Unpaid Work Calculator',
+            //   style: AppTextStyles.h1(context, color: Colors.white),
+            // ),
+            // const SizedBox(width: 12),
+            // Container(
+            //   height: 28,
+            //   width: 1.5,
+            //   color: Colors.white,
+            //   margin: const EdgeInsets.symmetric(horizontal: 8),
+            // ),
             Image.asset(
               'assets/logo/un_woman.png',
               height: 32,
@@ -127,7 +127,7 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
               padding: const EdgeInsets.all(16.0),
               child: Center(
                 child: ConstrainedBox(
-                  constraints: const BoxConstraints(maxWidth: 1200),
+                  constraints: const BoxConstraints(maxWidth: 1400),
                   child: Card(
                     elevation: 4,
                     shape: RoundedRectangleBorder(
@@ -151,7 +151,7 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                           //     ? _buildMobileLayout(calculatorProvider)
                           //     :
                           _buildDesktopLayout(
-                              isTablet),
+                              isWebSize, isMobile),
                           // _buildMobileLayout(calculatorProvider),
                           const SizedBox(height: 24),
 
@@ -177,7 +177,7 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                             alignment: WrapAlignment.center,
                             children: [
                               SizedBox(
-                                width: isTablet ? 400 : double.infinity,
+                                width: isWebSize ? 400 : double.infinity,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment
                                       .start,
@@ -195,7 +195,7 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                                 ),
                               ),
                               SizedBox(
-                                width: isTablet ? 400 : double.infinity,
+                                width: isWebSize ? 400 : double.infinity,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment
                                       .start,
@@ -227,7 +227,7 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
     );
   }
 
-  Widget _buildDesktopLayout(bool isTablet) {
+  Widget _buildDesktopLayout(bool bigScreen, bool smallScreen) {
     final langService = Provider.of<LanguageServiceMobile>(context);
     final leftKey = GlobalKey();
 
@@ -246,307 +246,297 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
       }
     });
 
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    return Wrap(
       children: [
-
-        /// select your care work tasks
-        Expanded(
-          //flex: isTablet ? 1 : 3,
-
-          child: Container(
-            key: leftKey,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(16),
-            ),
-            padding: const EdgeInsets.symmetric(
-                horizontal: 16, vertical: 24),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  i18n[langService
-                      .currentLanguage]?["landing_page"]?["select_card_note"]??'Select Your Care Work Tasks \nGive Total Work Hours (Daily)',
-                  style: AppTextStyles.h2(context),
+        Container(
+          constraints: BoxConstraints(maxWidth: 600),
+          key: leftKey,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(16),
+          ),
+          padding: const EdgeInsets.symmetric(
+              horizontal: 16, vertical: 24),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                i18n[langService
+                    .currentLanguage]?["landing_page"]?["select_card_note"]??'Select Your Care Work Tasks \nGive Total Work Hours (Daily)',
+                style: AppTextStyles.h2(context),
+              ),
+              const SizedBox(height: 16),
+              GridView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: bigScreen ? 4: smallScreen?2: 3,
+                  crossAxisSpacing: 8,
+                  mainAxisSpacing: 8,
+                  childAspectRatio: 0.9,
                 ),
-                const SizedBox(height: 16),
-                GridView.builder(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: isTablet ? 3 : 4,
-                    crossAxisSpacing: 8,
-                    mainAxisSpacing: 8,
-                    childAspectRatio: 0.9,
-                  ),
-                  itemCount: questionList.length,
-                  itemBuilder: (context, index) {
-                    final task = questionList[index];
-                    return TaskCard(
-                      title: i18n[langService
-                          .currentLanguage]?["activity_names"]?[questionList[index]["question_key"]],
-                      imagePath: questionList[index]["imagePath"],
-                      defaultHours: 3 as double,
-                      isSelected: false,
-                      currentIndex: index,
-                      question: i18n[langService
-                          .currentLanguage]?["questions"]?[questionList[index]["question_key"]],
-                      questionKey: questionList[index]["question_key"],
-                    );
-                  },
-                ),
-              ],
-            ),
+                itemCount: questionList.length,
+                itemBuilder: (context, index) {
+                  final task = questionList[index];
+                  return TaskCard(
+                    title: i18n[langService
+                        .currentLanguage]?["activity_names"]?[questionList[index]["question_key"]],
+                    imagePath: questionList[index]["imagePath"],
+                    defaultHours: 0 as double,
+                    isSelected: false,
+                    currentIndex: index,
+                    question: i18n[langService
+                        .currentLanguage]?["questions"]?[questionList[index]["question_key"]],
+                    questionKey: questionList[index]["question_key"], showSlider: false,
+                  );
+                },
+              ),
+            ],
           ),
         ),
         const SizedBox(width: 24),
 
         /// your unpaid work value
-        Expanded(
-          //  flex: isTablet ? 1 : 2,
-          child: Container(
-            height: _leftPanelHeight,
-            decoration: BoxDecoration(
-              color: const Color(0xFF0099D8),
-              borderRadius: BorderRadius.circular(16),
-            ),
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Text(
-                  i18n[langService
-                      .currentLanguage]?['result_page']?['your_unpaid_work_value'] ??
-                      "Your Unpaid Work Value",
-                  style: AppTextStyles.h2(context, color: Colors.white),
-                ),
-                // const SizedBox(height: 8),
-                // Text(
-                //   'Your Name',
-                //   style: AppTextStyles.normal(context, color: Colors.white),
-                // ),
-                const SizedBox(height: 8),
-                Consumer<QuestionProviderPrincipal>(
-                  builder: (context,questionProvider, child) {
-                    return Row(
-                        children: [
-                          Expanded(
-                            child: TextField(
-                              controller: questionProvider.userName,
-                              decoration: InputDecoration(
-                                hintText: 'Enter your name',
-                                filled: true,
-                                fillColor: Colors.white,
-                                label: Text("Name"),
-                                labelStyle: TextStyle(color: Colors.black,
-                                    fontWeight: FontWeight.w500,
-                                    backgroundColor: Colors.white),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                  borderSide: BorderSide.none,
-                                ),
+        Container(
+          constraints: BoxConstraints(maxWidth: 600),
+          height: smallScreen? 400: bigScreen? _leftPanelHeight : (_leftPanelHeight! *.75),
+          decoration: BoxDecoration(
+            color: const Color(0xFF0099D8),
+            borderRadius: BorderRadius.circular(16),
+          ),
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Text(
+                i18n[langService
+                    .currentLanguage]?['result_page']?['your_unpaid_work_value'] ??
+                    "Your Unpaid Work Value",
+                style: AppTextStyles.h2(context, color: Colors.white),
+              ),
+              // const SizedBox(height: 8),
+              // Text(
+              //   'Your Name',
+              //   style: AppTextStyles.normal(context, color: Colors.white),
+              // ),
+              const SizedBox(height: 8),
+              Consumer<QuestionProviderPrincipal>(
+                builder: (context,questionProvider, child) {
+                  return Row(
+                      children: [
+                        Expanded(
+                          child: TextField(
+                            controller: questionProvider.userName,
+                            decoration: InputDecoration(
+                              hintText: 'Enter your name',
+                              filled: true,
+                              fillColor: Colors.white,
+                              label: Text("Name"),
+                              labelStyle: TextStyle(color: Colors.black,
+                                  fontWeight: FontWeight.w500,
+                                  backgroundColor: Colors.white),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                borderSide: BorderSide.none,
                               ),
                             ),
                           ),
-                          Expanded(child: buildDropdown(
-                            "Sex",  questionProvider.selectedGender, ["Woman", "Man"], (gender,) {
-                            questionProvider.selectedGender = gender;
-                            questionProvider.refresh();
-                          },
-                          )),
-                        ],
-                    );
-                  }
-                ),
-                const SizedBox(height: 8),
-                Consumer<QuestionProviderPrincipal>(
-                  builder: (context, questionProvider, child) {
-                    return Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Container(
-                          padding: EdgeInsets.all(10),
-                          margin: EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: Color(0xFFF9FAFB),
-                          ),
-                          child: Column(
-                            children: [
-                              Text(
-                                questionProvider.getGrandTotalHour().toStringAsFixed(1),
-                                style: TextStyle(fontWeight: FontWeight.bold,
-                                    fontSize: 28,
-                                    color: Color(0xff2599D8)),
-                              ),
-                              SizedBox(height: 15,),
-                              Text(
-                                i18n[langService
-                                    .currentLanguage]?['share_result_page']?['total_hour'] ??
-                                    'Total Value',
-                                style: TextStyle(fontWeight: FontWeight.bold,
-                                    fontSize: 18,
-                                    color: Color(0xff2599D8)),
-
-                              ),
-                            ],
-                          ),
                         ),
-                        const SizedBox(width: 20),
-                        Container(
-                          padding: EdgeInsets.all(10),
-                          margin: EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: Color(0xFFF9FAFB),
-                          ),
-                          child: Column(
-                            children: [
-                              Text(
-                                questionProvider.getGrandTotalPoint().toStringAsFixed(1),
-                                style: TextStyle(fontWeight: FontWeight.bold,
-                                    fontSize: 28,
-                                    color: Color(0xff2599D8,),),
-                              ),
-
-                              SizedBox(height: 15,),
-
-                              Text(
-                    i18n[langService
-                        .currentLanguage]?['share_result_page']?['total_value'] ??
-                    'Total Value',
-                                // style: AppTextStyles.normal(context, color: Colors.white),
-                                style: TextStyle(fontWeight: FontWeight.bold,
-                                    fontSize: 18,
-                                    color: Color(0xff2599D8)),
-                              ),
-                            ],
-                          ),
-                        ),
+                        Expanded(child: buildDropdown(
+                          "Sex",  questionProvider.selectedGender, ["Woman", "Man"], (gender,) {
+                          questionProvider.selectedGender = gender;
+                          questionProvider.refresh();
+                        },
+                        )),
                       ],
-                    );
-                  }
-                ),
-
-                const SizedBox(height: 8),
-                Text(
-                  'Based on the HPRA research in Bangladesh for Women',
-                  style: AppTextStyles.normal(context, color: Colors.white),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 8),
-                if (false)
-                  LayoutBuilder(
-                    builder: (context, constraints) {
-                      const double maxChipHeight = 100.0;
-                      final chipCount = 2;
-                      final estRows = (chipCount / 4.0).ceil();
-                      final naturalHeight = 16.0 + (estRows * 36.0) + 16.0;
-                      final useScroll = naturalHeight > maxChipHeight;
-                      return Container(
-                        margin: const EdgeInsets.only(bottom: 18),
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 8, horizontal: 8),
+                  );
+                }
+              ),
+              const SizedBox(height: 8),
+              Consumer<QuestionProviderPrincipal>(
+                builder: (context, questionProvider, child) {
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Container(
+                        padding: EdgeInsets.all(10),
+                        margin: EdgeInsets.all(10),
                         decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.13),
                           borderRadius: BorderRadius.circular(10),
-                          border: Border.all(color: Colors.white24),
+                          color: Color(0xFFF9FAFB),
                         ),
-                        //height: useScroll ? maxChipHeight : null,
-                        child: Text("chip will be here"),
-                        //   useScroll
-                        //       ? SingleChildScrollView(
-                        //     child: _chipWrap(provider),
-                        //   )
-                        //       : _chipWrap(provider),
-                      );
+                        child: Column(
+                          children: [
+                            Text(
+                              questionProvider.getGrandTotalHour().toStringAsFixed(1),
+                              style: TextStyle(fontWeight: FontWeight.bold,
+                                  fontSize: 28,
+                                  color: Color(0xff2599D8)),
+                            ),
+                            SizedBox(height: 15,),
+                            Text(
+                              i18n[langService
+                                  .currentLanguage]?['share_result_page']?['total_hour'] ??
+                                  'Total Value',
+                              style: TextStyle(fontWeight: FontWeight.bold,
+                                  fontSize: 18,
+                                  color: Color(0xff2599D8)),
+
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(width: 20),
+                      Container(
+                        padding: EdgeInsets.all(10),
+                        margin: EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: Color(0xFFF9FAFB),
+                        ),
+                        child: Column(
+                          children: [
+                            Text(
+                              questionProvider.getGrandTotalPoint().toStringAsFixed(1),
+                              style: TextStyle(fontWeight: FontWeight.bold,
+                                  fontSize: 28,
+                                  color: Color(0xff2599D8,),),
+                            ),
+
+                            SizedBox(height: 15,),
+
+                            Text(
+                  i18n[langService
+                      .currentLanguage]?['share_result_page']?['total_value'] ??
+                  'Total Value',
+                              // style: AppTextStyles.normal(context, color: Colors.white),
+                              style: TextStyle(fontWeight: FontWeight.bold,
+                                  fontSize: 18,
+                                  color: Color(0xff2599D8)),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  );
+                }
+              ),
+
+              const SizedBox(height: 8),
+              Text(
+                'Based on the HPRA research in Bangladesh for Women',
+                style: TextStyle(fontSize: smallScreen? 14:18, color: Colors.white),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 8),
+              if (false)
+                LayoutBuilder(
+                  builder: (context, constraints) {
+                    const double maxChipHeight = 100.0;
+                    final chipCount = 2;
+                    final estRows = (chipCount / 4.0).ceil();
+                    final naturalHeight = 16.0 + (estRows * 36.0) + 16.0;
+                    final useScroll = naturalHeight > maxChipHeight;
+                    return Container(
+                      margin: const EdgeInsets.only(bottom: 18),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 8, horizontal: 8),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.13),
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(color: Colors.white24),
+                      ),
+                      //height: useScroll ? maxChipHeight : null,
+                      child: Text("chip will be here"),
+                      //   useScroll
+                      //       ? SingleChildScrollView(
+                      //     child: _chipWrap(provider),
+                      //   )
+                      //       : _chipWrap(provider),
+                    );
+                  },
+                ),
+              const SizedBox(height: 8),
+              if (true) Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton.icon(
+                    onPressed: () {
+                      "do something";
+                     questionProviderPrincipal.reset();
+                      Navigator.pushReplacementNamed(context, WebRoutes.webHome);
                     },
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 24, vertical: 12),
+                      backgroundColor: Colors.white,
+                      foregroundColor: const Color(
+                          0xFF0099D8), // or your preferred color
+                    ),
+                    icon: const Icon(
+                      Icons.refresh, color: Color(0xFF0099D8),),
+                    label: Text(
+                      i18n[langService
+                          .currentLanguage]?['share_result_page']?['reset'] ??
+                          'Reset Values',
+                      style: TextStyle(color: AppColors.primary, fontSize: 14),
+                    ),
                   ),
-                const SizedBox(height: 8),
-                if (true) Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    ElevatedButton.icon(
+                  SizedBox(width: 15,),
+
+                  SizedBox(
+                    //width: MediaQuery.of(context).size.width * 0.92,
+                    child: ElevatedButton.icon(
                       onPressed: () {
-                        "do something";
-                       questionProviderPrincipal.reset();
-                        Navigator.pushReplacementNamed(context, WebRoutes.webHome);
+                        Navigator.of(context).pushReplacementNamed(WebRoutes
+                            .webResult,);
+                        // print(
+                        //     'View Result pressed: arguments = {scores: $usedScores, totalScore: $usedTotalScore, hoursByQuestion: $usedHoursByQuestion, name: ${provider
+                        //         .nameController.text}, totalHours: ${provider
+                        //         .totalHours}, totalValue: ${provider
+                        //         .totalPoints}, selectedTasks: ${provider
+                        //         .selectedTasks}}');
+                        // Navigator.pushNamed(
+                        //   context,
+                        //   '/result',
+                        //   arguments: {
+                        //     'name': provider.nameController.text,
+                        //     'totalHours': provider.totalHours,
+                        //     'totalValue': provider.totalPoints,
+                        //     'selectedTasks': provider.selectedTasks,
+                        //     'scores': usedScores,
+                        //    // 'totalScore': usedTotalScore,
+                        //     'totalScore': provider.totalPoints,
+                        //     'hoursByQuestion': usedHoursByQuestion,
+                        //     'taskNames': {
+                        //       for(final t in questionList) t['title']: t['title']
+                        //     },
+                        //   },
+                        // );
                       },
                       style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 24, vertical: 12),
                         backgroundColor: Colors.white,
-                        foregroundColor: const Color(
-                            0xFF0099D8), // or your preferred color
+                        foregroundColor: Color(0xFF0099D8),
+                        padding: const EdgeInsets.symmetric(horizontal: 24,
+                            vertical: 12),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16),
+                        ),
                       ),
-                      icon: const Icon(
-                        Icons.refresh, color: Color(0xFF0099D8),),
+                      icon: Icon(Icons.list),
                       label: Text(
-                        i18n[langService
-                            .currentLanguage]?['share_result_page']?['reset'] ??
-                            'Reset Values',
-                        style: AppTextStyles.buttonText(context, color: Color(
-                            0xFF0099D8)),
+            i18n[langService
+                .currentLanguage]?['share_result_page']?['view_result'] ??
+            'Total Value',
+                        style: TextStyle(color: AppColors.primary, fontSize: 14),
                       ),
                     ),
-                    SizedBox(width: 15,),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 8),
 
-                    SizedBox(
-                      //width: MediaQuery.of(context).size.width * 0.92,
-                      child: ElevatedButton.icon(
-                        onPressed: () {
-                          Navigator.of(context).pushReplacementNamed(WebRoutes
-                              .webResult,);
-                          // print(
-                          //     'View Result pressed: arguments = {scores: $usedScores, totalScore: $usedTotalScore, hoursByQuestion: $usedHoursByQuestion, name: ${provider
-                          //         .nameController.text}, totalHours: ${provider
-                          //         .totalHours}, totalValue: ${provider
-                          //         .totalPoints}, selectedTasks: ${provider
-                          //         .selectedTasks}}');
-                          // Navigator.pushNamed(
-                          //   context,
-                          //   '/result',
-                          //   arguments: {
-                          //     'name': provider.nameController.text,
-                          //     'totalHours': provider.totalHours,
-                          //     'totalValue': provider.totalPoints,
-                          //     'selectedTasks': provider.selectedTasks,
-                          //     'scores': usedScores,
-                          //    // 'totalScore': usedTotalScore,
-                          //     'totalScore': provider.totalPoints,
-                          //     'hoursByQuestion': usedHoursByQuestion,
-                          //     'taskNames': {
-                          //       for(final t in questionList) t['title']: t['title']
-                          //     },
-                          //   },
-                          // );
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.white,
-                          foregroundColor: Color(0xFF0099D8),
-                          padding: const EdgeInsets.symmetric(horizontal: 24,
-                              vertical: 12),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16),
-                          ),
-                        ),
-                        icon: Icon(Icons.list),
-                        label: Text(
-    i18n[langService
-        .currentLanguage]?['share_result_page']?['view_result'] ??
-    'Total Value',
-                          style: AppTextStyles.buttonText(context,
-                              color: Color(0xFF0099D8)),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 8),
-
-              ],
-            ),
+            ],
           ),
         ),
       ],
