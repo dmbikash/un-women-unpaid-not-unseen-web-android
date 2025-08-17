@@ -58,7 +58,7 @@ class _QuestionCardState extends State<QuestionCard> {
     final screenHeight = MediaQuery.of(context).size.height;
     final cardWidth = screenWidth; //* 0.85;
     final cardPadding = screenWidth * 0.04;
-    final questionProvider = Provider.of<QuestionProvider_old_app>(context);
+    //final questionProvider = Provider.of<QuestionProvider_old_app>(context);
     final langService = Provider.of<LanguageServiceMobile>(context);
 
     // Get question text from language file
@@ -149,7 +149,7 @@ class _QuestionCardState extends State<QuestionCard> {
                                // questionProvider.resetCurrentHourSelection();
 
                                 // Show hour options
-                                questionProvider.showHourSelection();
+                               // questionProvider.showHourSelection();
 
                                 // Make the processing flag false after a delay
                                 // but don't hide the hour options

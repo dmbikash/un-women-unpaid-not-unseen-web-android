@@ -47,7 +47,7 @@ class _HourOptionSelectorState extends State<HourOptionSelector> {
 
   @override
   Widget build(BuildContext context) {
-    final questionProvider = Provider.of<QuestionProvider_old_app>(context);
+   // final questionProvider = Provider.of<QuestionProvider_old_app>(context);
     final langService = Provider.of<LanguageServiceMobile>(context);
 
     // Get responsive dimensions
@@ -137,10 +137,10 @@ class _HourOptionSelectorState extends State<HourOptionSelector> {
             InkWell(
               onTap: () {
                 // Get the current question from the provider
-                final questionProvider = Provider.of<QuestionProvider_old_app>(
-                    context, listen: false);
-                final isLastQuestion = questionProvider.currentIndex ==
-                    questionProvider.totalQuestions - 1;
+               // final questionProvider = Provider.of<QuestionProvider_old_app>(
+                    //context, listen: false);
+                // final isLastQuestion = questionProvider.currentIndex ==
+                //     questionProvider.totalQuestions - 1;
 
                 // If selected 0 hours, treat it as a "No"
                 if (_selectedHours < 1.0) {

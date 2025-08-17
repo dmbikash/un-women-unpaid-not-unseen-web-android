@@ -459,7 +459,7 @@ class _ShareResultPageState extends State<ShareResultPage> {
                               .currentLanguage]?['activity_names']?[answerList[index]["question_key"]] ?? "N/A",
                             /// total  hours
                             "${langService.convertNumberToBengali(
-                                answerList[index]["hour"].toStringAsFixed(1))} "
+                                answerList[index]["total_duration"].toStringAsFixed(2))} "
                                 // "${i18n[langService
                                 // .currentLanguage]?['result_page']?['points_suffix'] ??
                                 // 'points'}"
@@ -647,66 +647,66 @@ class _ShareResultPageState extends State<ShareResultPage> {
     );
   }
 
-  double _calculateTotalHours(Map<String, double>? hoursByQuestion) {
-    if (hoursByQuestion == null) return 0;
-    return hoursByQuestion.values.fold(0.0, (sum, hours) => sum + hours);
-  }
+  // double _calculateTotalHours(Map<String, double>? hoursByQuestion) {
+  //   if (hoursByQuestion == null) return 0;
+  //   return hoursByQuestion.values.fold(0.0, (sum, hours) => sum + hours);
+  // }
 
-  void _shareResults(BuildContext context, Map<String, dynamic> scores,
-      int totalScore, Map<String, double>? hoursByQuestion,
-      Map<String, Question> questionsById) {
-    // This would normally use a sharing plugin
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(i18n['en']?['share_result_page']?['share_message'] ??
-            'Sharing functionality would be implemented here'),
-        backgroundColor: AppColors.primary,
-      ),
-    );
-  }
-
-  void _copyToClipboard(BuildContext context, Map<String, dynamic> scores,
-      int totalScore, Map<String, double>? hoursByQuestion,
-      Map<String, Question> questionsById) {
-    final langService = Provider.of<LanguageServiceMobile>(context);
-    // Generate text summary
-    String summary = "My Unpaid Work Value: ${langService
-        .convertNumberToBengali(totalScore.toString())} ${i18n[langService
-        .currentLanguage]?['share_result_page']?['points_suffix'] ??
-        'points'} per week\n\n";
-    summary += "Detailed Breakdown:\n";
-
-    // List activities
-    for (var entry in scores.entries.where((e) => e.value > 0)) {
-      final String id = entry.key;
-      final int score = entry.value;
-      final double hours = hoursByQuestion?[id] ?? 0;
-      final String activityKey = questionsById[id]?.questionKey ?? 'other';
-      final String activityName = i18n['en']?['activity_names']?[activityKey] ??
-          i18n['en']?['activity_names']?[activityKey] ??
-          'Activity';
-
-      summary +=
-      "$activityName: ${langService.convertNumberToBengali(
-          hours.toStringAsFixed(1))} ${i18n[langService
-          .currentLanguage]?['share_result_page']?['hours_suffix'] ??
-          'hrs'}/week = ${langService.convertNumberToBengali(
-          score.toString())} ${i18n[langService
-          .currentLanguage]?['share_result_page']?['points_suffix'] ??
-          'points'}\n";
-    }
-
-    summary += "\nCalculated by the Unpaid Work Calculator";
-
-    // Copy to clipboard
-    Clipboard.setData(ClipboardData(text: summary));
-
-    // Show confirmation
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('Results copied to clipboard'),
-        backgroundColor: AppColors.primary,
-      ),
-    );
-  }
+  // void _shareResults(BuildContext context, Map<String, dynamic> scores,
+  //     int totalScore, Map<String, double>? hoursByQuestion,
+  //     Map<String, Question> questionsById) {
+  //   // This would normally use a sharing plugin
+  //   ScaffoldMessenger.of(context).showSnackBar(
+  //     SnackBar(
+  //       content: Text(i18n['en']?['share_result_page']?['share_message'] ??
+  //           'Sharing functionality would be implemented here'),
+  //       backgroundColor: AppColors.primary,
+  //     ),
+  //   );
+  // }
+  //
+  // void _copyToClipboard(BuildContext context, Map<String, dynamic> scores,
+  //     int totalScore, Map<String, double>? hoursByQuestion,
+  //     Map<String, Question> questionsById) {
+  //   final langService = Provider.of<LanguageServiceMobile>(context);
+  //   // Generate text summary
+  //   String summary = "My Unpaid Work Value: ${langService
+  //       .convertNumberToBengali(totalScore.toString())} ${i18n[langService
+  //       .currentLanguage]?['share_result_page']?['points_suffix'] ??
+  //       'points'} per week\n\n";
+  //   summary += "Detailed Breakdown:\n";
+  //
+  //   // List activities
+  //   for (var entry in scores.entries.where((e) => e.value > 0)) {
+  //     final String id = entry.key;
+  //     final int score = entry.value;
+  //     final double hours = hoursByQuestion?[id] ?? 0;
+  //     final String activityKey = questionsById[id]?.questionKey ?? 'other';
+  //     final String activityName = i18n['en']?['activity_names']?[activityKey] ??
+  //         i18n['en']?['activity_names']?[activityKey] ??
+  //         'Activity';
+  //
+  //     summary +=
+  //     "$activityName: ${langService.convertNumberToBengali(
+  //         hours.toStringAsFixed(1))} ${i18n[langService
+  //         .currentLanguage]?['share_result_page']?['hours_suffix'] ??
+  //         'hrs'}/week = ${langService.convertNumberToBengali(
+  //         score.toString())} ${i18n[langService
+  //         .currentLanguage]?['share_result_page']?['points_suffix'] ??
+  //         'points'}\n";
+  //   }
+  //
+  //   summary += "\nCalculated by the Unpaid Work Calculator";
+  //
+  //   // Copy to clipboard
+  //   Clipboard.setData(ClipboardData(text: summary));
+  //
+  //   // Show confirmation
+  //   ScaffoldMessenger.of(context).showSnackBar(
+  //     SnackBar(
+  //       content: Text('Results copied to clipboard'),
+  //       backgroundColor: AppColors.primary,
+  //     ),
+  //   );
+  // }
 }

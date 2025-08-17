@@ -8,8 +8,8 @@ class QuestionProviderPrincipal with ChangeNotifier {
   String? selectedGender = kDebugMode? "Woman":null;
 
   List<Map> answerSheet = [];
-
-  Map answerSample = {
+/*
+    Map answerSample = {
     "task_name": "task name",
     "question": "question",
     "answer": false,
@@ -18,7 +18,7 @@ class QuestionProviderPrincipal with ChangeNotifier {
     "hour": 1.5,
     "total_point": 0.0,
   };
-
+*/
   void addAnswer({
     required String questionKey,
     required String question,
@@ -26,6 +26,7 @@ class QuestionProviderPrincipal with ChangeNotifier {
     required String gender,
     required int point,
     required double hour,
+    required double minute,
     required double totalPoint,
   }) {
     Map answerSample = {
@@ -34,7 +35,9 @@ class QuestionProviderPrincipal with ChangeNotifier {
       "answer": false,
       "gender": "Male",
       "point": 0,
-      "hour": 1.5,
+      "hour": 0.0,
+      "minute": 0.0,
+      "total_duration": 0.0,
       "total_point": 0.0,
     };
     answerSample = {
@@ -44,6 +47,9 @@ class QuestionProviderPrincipal with ChangeNotifier {
       "gender": gender,
       "point": point,
       "hour": hour,
+      "minute": minute,
+      "total_duration": hour+(minute/60),
+
       "total_point": totalPoint,
     };
 
@@ -60,20 +66,25 @@ class QuestionProviderPrincipal with ChangeNotifier {
   }
 
   void updateAnswer({
-    required String key,
-    required double value,
+    //required String key,
+    required double hour,
+    required double minute,
     required String questionKey,
   }) {
     int index = answerSheet.indexWhere((map) => map.containsValue(questionKey));
     if (index != -1) {
       // Key exists — update the value
-      answerSheet[index][key] = value;
-      answerSheet[index]["total_point"] = value* (selectedGender=="Man" ||selectedGender==null ? 60:50);
+
+      answerSheet[index]["hour"] = hour;
+      answerSheet[index]["minute"] = minute;
+      double totalDuration = hour+(minute/60);
+      answerSheet[index]["total_duration"] = totalDuration;
+      answerSheet[index]["total_point"] = totalDuration * (selectedGender=="Man" || selectedGender==null ? 60:50);
       print(answerSheet);
       notifyListeners();
     } else {
       // Key not found
-      print("value: '$value' not found in any map");
+      print("value: '$hour' not found in any map");
     }
   }
 
@@ -95,7 +106,11 @@ class QuestionProviderPrincipal with ChangeNotifier {
     int index = answerSheet.indexWhere((map) => map.containsValue(questionKey));
     if (index != -1) {
       // Key exists — update the value
-      return answerSheet[index]["hour"];
+      // double  hour = answerSheet[index]["hour"]?? 0.0;
+      // double  minute = answerSheet[index]["minute"]?? 0.0;
+      // double  time = answerSheet[index]["time"]?? 0.0;
+      print("getHoursByKey : ${answerSheet[index]["total_duration"]}");
+      return answerSheet[index]["total_duration"];
     } else {
       // Key not found
       return 0.0;
@@ -109,13 +124,14 @@ class QuestionProviderPrincipal with ChangeNotifier {
     for (var anser in answerSheet) {
       sum = sum + anser["total_point"];
     }
+    print(" Grand Total : $sum");
     return sum;
   }
 
   double getGrandTotalHour() {
     double sum = 0;
     for (var anser in answerSheet) {
-      sum = sum + anser["hour"];
+      sum = sum + anser["total_duration"];
     }
     return sum;
   }

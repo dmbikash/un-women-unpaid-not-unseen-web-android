@@ -27,7 +27,7 @@ class CalculatorScreen extends StatefulWidget {
 }
 
 class _CalculatorScreenState extends State<CalculatorScreen> {
-  double? _leftPanelHeight;
+  double? _leftPanelHeight = 400;
   int? _lastTaskCount;
 
 
@@ -75,7 +75,7 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
             // ),
             Image.asset(
               'assets/logo/un_woman.png',
-              height: 32,
+              height: isMobile? 25:32,
               fit: BoxFit.contain,
               color: Colors.white,
             ),
@@ -83,19 +83,19 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
             Align(
               alignment: Alignment.bottomRight,
               child: SizedBox(
-                width: 200,
-                height: 80,
+                width: isMobile? 150:200,
+                height: 40,
                 child: ElevatedButton(
                   onPressed: () {
                     langService.toggleLanguage();
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primary.withOpacity(0.2),
-                    foregroundColor: Colors.white,
-                    elevation: 0,
+                   backgroundColor: AppColors.white,
+                //    foregroundColor: Colors.white,
+                  //  elevation: 0,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(16),
-                      side: BorderSide(color: Colors.white),
+                      //side: BorderSide(color: Colors.),
                     ),
                   ),
                   child: Text(
@@ -103,9 +103,9 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                         ? 'বাংলা ভাষায় দেখুন' // Show in Bengali
                         : 'View in English', // Show in English
                     style: ThemeTextStyles.button.copyWith(
-                      fontSize:  16,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.white,
+                      fontSize:  isMobile? 12:16,
+                      fontWeight:isMobile? FontWeight.bold: FontWeight.w500,
+                      color: AppColors.primary,
                     ),
                   ),
                 ),
@@ -282,7 +282,8 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                     title: i18n[langService
                         .currentLanguage]?["activity_names"]?[questionList[index]["question_key"]],
                     imagePath: questionList[index]["imagePath"],
-                    defaultHours: 0 as double,
+                    defaultHours: 0.0 as double,
+                    defaultMins: 0.0 as double,
                     isSelected: false,
                     currentIndex: index,
                     question: i18n[langService
@@ -299,7 +300,7 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
         /// your unpaid work value
         Container(
           constraints: BoxConstraints(maxWidth: 600),
-          height: smallScreen? 400: bigScreen? _leftPanelHeight : (_leftPanelHeight! *.75),
+          height: smallScreen? _leftPanelHeight! *.4: bigScreen? _leftPanelHeight : (_leftPanelHeight! *.75),
           decoration: BoxDecoration(
             color: const Color(0xFF0099D8),
             borderRadius: BorderRadius.circular(16),
@@ -315,11 +316,11 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                 style: AppTextStyles.h2(context, color: Colors.white),
               ),
               // const SizedBox(height: 8),
-              // Text(
-              //   'Your Name',
-              //   style: AppTextStyles.normal(context, color: Colors.white),
-              // ),
-              const SizedBox(height: 8),
+              Text(
+                'Your Name',
+                style: AppTextStyles.normal(context, color: Colors.white),
+              ),
+              //const SizedBox(height: 8),
               Consumer<QuestionProviderPrincipal>(
                 builder: (context,questionProvider, child) {
                   return Row(
@@ -331,7 +332,7 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                               hintText: 'Enter your name',
                               filled: true,
                               fillColor: Colors.white,
-                              label: Text("Name"),
+                              //label: Text("Name"),
                               labelStyle: TextStyle(color: Colors.black,
                                   fontWeight: FontWeight.w500,
                                   backgroundColor: Colors.white),
@@ -342,8 +343,10 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                             ),
                           ),
                         ),
-                        Expanded(child: buildDropdown(
-                          "Sex",  questionProvider.selectedGender, ["Woman", "Man"], (gender,) {
+                        Expanded(
+                            child: buildDropdown(
+                          "Sex",  questionProvider.selectedGender,
+                              ["Woman", "Man"], (gender,) {
                           questionProvider.selectedGender = gender;
                           questionProvider.refresh();
                         },
@@ -359,8 +362,9 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Container(
+                        width: smallScreen ? 120: 175,
                         padding: EdgeInsets.all(10),
-                        margin: EdgeInsets.all(10),
+                        margin: EdgeInsets.all(0),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
                           color: Color(0xFFF9FAFB),
@@ -370,26 +374,27 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                             Text(
                               questionProvider.getGrandTotalHour().toStringAsFixed(1),
                               style: TextStyle(fontWeight: FontWeight.bold,
-                                  fontSize: 28,
+                                  fontSize: smallScreen? 18 :24,
                                   color: Color(0xff2599D8)),
                             ),
                             SizedBox(height: 15,),
                             Text(
                               i18n[langService
                                   .currentLanguage]?['share_result_page']?['total_hour'] ??
-                                  'Total Value',
+                                  'Total Hours',
                               style: TextStyle(fontWeight: FontWeight.bold,
-                                  fontSize: 18,
+                                  fontSize: smallScreen? 14 :18,
                                   color: Color(0xff2599D8)),
 
                             ),
                           ],
                         ),
                       ),
-                      const SizedBox(width: 20),
+
                       Container(
+                        width: smallScreen ? 120: 175,
                         padding: EdgeInsets.all(10),
-                        margin: EdgeInsets.all(10),
+                        margin: EdgeInsets.all(0),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
                           color: Color(0xFFF9FAFB),
@@ -399,7 +404,7 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                             Text(
                               questionProvider.getGrandTotalPoint().toStringAsFixed(1),
                               style: TextStyle(fontWeight: FontWeight.bold,
-                                  fontSize: 28,
+                                  fontSize: smallScreen? 18 :24,
                                   color: Color(0xff2599D8,),),
                             ),
 
@@ -411,7 +416,7 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                   'Total Value',
                               // style: AppTextStyles.normal(context, color: Colors.white),
                               style: TextStyle(fontWeight: FontWeight.bold,
-                                  fontSize: 18,
+                                  fontSize: smallScreen? 14 :18,
                                   color: Color(0xff2599D8)),
                             ),
                           ],
@@ -423,6 +428,7 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
               ),
 
               const SizedBox(height: 8),
+
               Text(
                 'Based on the HPRA research in Bangladesh for Women',
                 style: TextStyle(fontSize: smallScreen? 14:18, color: Colors.white),
@@ -457,8 +463,11 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                   },
                 ),
               const SizedBox(height: 8),
-              if (true) Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+              if (true) Wrap(
+                alignment: WrapAlignment.center,
+                spacing: 10,
+                runSpacing: 10,
+
                 children: [
                   ElevatedButton.icon(
                     onPressed: () {
@@ -482,7 +491,7 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                       style: TextStyle(color: AppColors.primary, fontSize: 14),
                     ),
                   ),
-                  SizedBox(width: 15,),
+                  // SizedBox(width: 15,),
 
                   SizedBox(
                     //width: MediaQuery.of(context).size.width * 0.92,

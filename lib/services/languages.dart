@@ -15,18 +15,19 @@ Map i18n = {
     },
 
     "questions": {
-      "cooking": "Do you prepare meals for your household regularly?",
-      "cleaning": "Do you clean or tidy your home regularly?",
-      "childcare": "Do you take care of children in your household?",
-      "eldercare": "Do you provide care for elderly or dependent family members?",
-      "grocery": "Do you do the grocery shopping or purchase household items?",
-      "laundry": "Do you wash, dry, or iron clothes for your family?",
-      "gardening": "Do you do gardening, yard work, or maintain outdoor spaces?",
-      "homework_help": "Do you help children with their homework or school-related activities?",
-      "emotional_support": "Do you provide emotional support or help family members manage stress?",
-      "water_collection": "Do you collect water or manage household water supply (for drinking, cooking, washing, etc.)?",
-      "health_care_support": "Do you support family members with health-related tasks such as giving medicine, attending appointments, or providing physical care?",
-      "other": "Do you carry out any other unpaid caregiving or support work at home or in your community?"
+      "cooking": "Preparing, serving meals, cleaning up, and managing food stocks to ensure daily meals for the family",
+      "cleaning": "Indoor and outdoor cleaning, garbage disposal, recycling, and household upkeep tasks.",
+      "childcare": "Feeding, bathing, teaching, playing, reading, and supervising children’s daily care.",
+      "eldercare": "Helping adults with daily tasks, medical care, emotional support, and companionship.",
+      "grocery": "Buying food and household essentials from markets, shops, or services to meet family needs.",
+      "laundry": "Washing, drying, ironing, folding, mending, and caring for clothes, shoes, and fabrics.",
+
+      "other_care_work": "Caring for non-dependent adults, supporting during illness, or accompanying family.",
+      "transportation": "Traveling for household tasks like shopping, school, or accompanying family members.",
+      "child_education": "Helping children with homework, lessons, extra-curriculars, and distance learning",
+      "home_maintenance": "Repairing, decorating, improving, and maintaining household items and equipment.",
+      "making_home": "Managing household bills, budgeting, planning, and organizing family responsibilities.",
+      "other": "Volunteering, learning, socializing, hobbies, leisure, and cultural or community events."
     },
 
     "answers": {
@@ -83,11 +84,12 @@ Map i18n = {
       "eldercare": "Elder Care",
       "grocery": "Grocery Shopping",
       "laundry": "Laundry",
-      "gardening": "Gardening",
-      "homework_help": "Homework Help",
-      "emotional_support": "Emotional Support",
-      "water_collection": "Water Collection",
-      "health_care_support": "Healthcare Support",
+      ///
+      "other_care_work": "Other Care Work",
+      "transportation": "Transportation",
+      "child_education": "Child Education",
+      "making_home": "Making Home",
+      "home_maintenance": "Home Maintenance",
       "other": "Other Activities"
     }
   },
@@ -106,18 +108,19 @@ Map i18n = {
 
     },
     "questions": {
-      "cooking": "আপনি কি নিয়মিতভাবে পরিবারের জন্য রান্না করেন?",
-      "cleaning": "আপনি কি নিয়মিতভাবে ঘর পরিষ্কার বা গুছিয়ে রাখেন?",
-      "childcare": "আপনি কি পরিবারের শিশুদের দেখাশোনা করেন?",
-      "eldercare": "আপনি কি পরিবারের বয়স্ক বা নির্ভরশীল সদস্যদের যত্ন নেন?",
-      "grocery": "আপনি কি বাজার করেন বা পরিবারের প্রয়োজনীয় জিনিসপত্র কিনে আনেন?",
-      "laundry": "আপনি কি পরিবারের কাপড় ধোয়া, শুকানো বা ইস্ত্রি করার কাজ করেন?",
+      "cooking": "খাবার তৈরি, খাবার পরিবেশন, পরিষ্কার- পরিচ্ছন্ন করা, ভবিষ্যতের জন্য খাদ্য সংরক্ষণ",
+      "cleaning": "বাড়ি পরিষ্কার, আবর্জনা ফেলা, পুনর্ব্যবহার ও রক্ষণাবেক্ষণ",
+      "childcare": "শিশুদের খাওয়ানো, গোসল করানো, শিক্ষা দেওয়া, খেলা, গল্প পড়া ও দৈনন্দিন যত্ন তত্ত্বাবধান করা।",
+      "eldercare": "দৈনন্দিন কাজে সহায়তা, চিকিৎসা, মানসিক সহায়তা ও সঙ্গ দেওয়া।",
+      "grocery": "খাদ্য সামগ্রী ক্রয়, গৃহস্থালি প্রয়োজনীয় জিনিস ক্রয়, পরিবারের অন্যান্য চাহিদা পূরণে বাজার করা",
+      "laundry": "কাপড় ধোয়া, শুকানো, ইস্ত্রি করা, ভাঁজ করা, সেলাই করা এবং পোশাক, জুতা ও কাপড়ের যত্ন নেওয়া।",
       "gardening": "আপনি কি বাগান করা, আঙিনা পরিষ্কার বা বাইরের কাজ করেন?",
-      "homework_help": "আপনি কি শিশুদের পড়াশোনায় বা স্কুল-সংক্রান্ত কাজে সাহায্য করেন?",
-      "emotional_support": "আপনি কি পরিবারের সদস্যদের মানসিক সহায়তা দেন বা মানসিক চাপ সামলাতে সাহায্য করেন?",
-      "water_collection": "আপনি কি পরিবারের জন্য পানি সংগ্রহ করেন বা পানির ব্যবস্থাপনা করেন (যেমন রান্না, ধোয়া, খাওয়ার জন্য)?",
-      "health_care_support": "আপনি কি পরিবারের সদস্যদের ওষুধ খাওয়ানো, চিকিৎসকের কাছে নিয়ে যাওয়া বা শারীরিকভাবে দেখভালের মতো স্বাস্থ্য-সম্পর্কিত কাজে সহায়তা করেন?",
-      "other": "আপনি কি বাড়ি বা আপনার সমাজে অন্য কোনো বেতনবিহীন কেয়ার ওয়ার্ক বা সহায়তার কাজ করেন??"
+      "other_care_work": "অ-নির্ভরশীল প্রাপ্তবয়স্কদের যত্ন, অসুস্থ অবস্থায় সহায়তা বা পরিবারের কারও সাথে থাকা, পরিবারকে সঙ্গ দেয়া",
+      "transportation": "বাজার করার জন্য, স্কুলে যাবার জন্য, পরিবারের সদস্যকে সঙ্গ দেবার জন্য",
+      "child_education": "বাড়ির কাজে সহায়তা, পড়তে সহায়তা, সহশিক্ষা কার্যক্রমে সহায়তা, দূরশিক্ষা সহযোগিতা",
+      "making_home": "বাড়ীর বিল পরিশোধ, বাজেট করা, পরিকল্পনা করা, পারিবারিক দায়িত্ব সমন্বয়",
+      "home_maintenance": "বাড়ির জিনিসপত্র ও যন্ত্রপাতি মেরামত, সাজসজ্জা করা, উন্নয়ন করা, সংরক্ষণ করা",
+      "other": "স্বেচ্ছাসেবক কাজ, শিক্ষামূলক কাজ, সামাজিকতা, শখ পূরণ, অবসর কাটানো, সাংস্কৃতিক বা সামাজিক অনুষ্ঠানে অংশগ্রহণ"
     },
 
     "answers": {
@@ -168,18 +171,19 @@ Map i18n = {
 
     },
     "activity_names": {
-      "cooking": "রান্না",
-      "cleaning": "পরিষ্কার",
-      "childcare": "শিশুদের যত্ন",
-      "eldercare": "বয়স্কদের যত্ন",
+      "cooking": "রান্না করা",
+      "cleaning": "পরিষ্কার-পরিচ্ছন্নতা",
+      "childcare": "শিশিশু যত্ন",
+      "eldercare": "বয়স্কদের যত্ন",
       "grocery": "বাজার করা",
-      "laundry": "কাপড় ধোয়া",
-      "gardening": "বাগান করা",
-      "homework_help": "পড়ালেখায় সাহায্য",
-      "emotional_support": "মানসিক সহায়তা",
-      "water_collection": "পানি সংগ্রহ",
-      "health_care_support": "স্বাস্থ্যসেবা সহায়তা",
-      "other": "অন্যান্য"
+      "laundry": "কাপড়-চোপড়ের যত্ন",
+      ///
+      "other_care_work": "অন্যান্য যত্ন",
+      "transportation": "যাতায়াত",
+      "child_education": "শিশু শিক্ষা",
+      "making_home": "গৃহ ব্যবস্থাপনা",
+      "home_maintenance": "বাড়ি রক্ষণাবেক্ষণ",
+      "other": "অন্যান্য কার্যক্রম"
     }
   },
 };

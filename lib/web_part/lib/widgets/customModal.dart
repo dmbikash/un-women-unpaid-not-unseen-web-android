@@ -93,9 +93,10 @@ Future<dynamic> taskModal(String message, var id, BuildContext context,
           //   ),
           // )),
           shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20))),
-          contentPadding: EdgeInsets.all(15),
+          contentPadding: EdgeInsets.all(MediaQuery.of(context).size.width <450 ? 0 : 15),
           content: Container(
             constraints: BoxConstraints(maxWidth: 600),
+            //width: double.infinity,
             width: double.infinity,
 
             padding: EdgeInsets.only(left: 10,right: 10, top: 10,bottom: 5),

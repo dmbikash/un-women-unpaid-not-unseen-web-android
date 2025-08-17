@@ -21,7 +21,7 @@ class HourChart extends StatelessWidget {
 
     // Filter only entries with hour > 0
     final List<Map<dynamic, dynamic>> activeQuestions =
-    questions.where((q) => (q['hour'] ?? 0) > 0).toList();
+    questions.where((q) => (q['total_duration'] ?? 0) > 0).toList();
 
     final List<Color> colors = [
       Colors.blue.shade400,
@@ -57,7 +57,7 @@ class HourChart extends StatelessWidget {
 
     for (var q in activeQuestions) {
       final String questionKey = q['question_key'] ?? 'other';
-      final double hours = (q['hour'] as num).toDouble();
+      final double hours = (q['total_duration'] as num).toDouble();
       final Color sectionColor = colors[colorIndex % colors.length];
       colorIndex++;
 

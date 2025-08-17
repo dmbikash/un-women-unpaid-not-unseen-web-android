@@ -37,7 +37,9 @@ class TaskPopUpCard extends StatefulWidget {
 }
 
 class _TaskPopUpCardState extends State<TaskPopUpCard> {
+
   double? _localHours;
+  double? _localMins =30;
 
   @override
   void didUpdateWidget(covariant TaskPopUpCard oldWidget) {
@@ -70,47 +72,39 @@ class _TaskPopUpCardState extends State<TaskPopUpCard> {
               // Always keep main block centered
               SizedBox(height: 10),
               /// image and question
-              Center(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                  child: Row(
-
-                    children: [
-                      Image.asset(widget.imagePath, height: 50, width: 50),
-                      SizedBox(width: 20,),
-                      /// title and question
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              widget.title,
-                              style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-                              textAlign: TextAlign.center,
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                            Text
-                              (
-                                "Test-Do you support family members with health-related tasks such as giving medicine, attending appointments, or providing physical care?",
-                              style: TextStyle(fontSize: 14, fontWeight: FontWeight.normal),
-                              textAlign: TextAlign.left,
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ],
-                        ),
-                      ),
-                      // SizedBox(height: 5),
-                      // Text(
-                      //   '${questionProviderPrincipal.getHoursByKey(questionKey: widget.questionKey).toStringAsFixed(1)} hours',
-                      //   style: TextStyle(fontSize: 12),
-                      //   textAlign: TextAlign.center,
-                      // ),
-                    ],
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset(widget.imagePath, height: 50, width: 50),
+                  SizedBox(width: 20,),
+                  /// title and question
+                  Text(
+                    widget.title,
+                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                    textAlign: TextAlign.center,
+                    maxLines: 2,
+                   // overflow: TextOverflow.ellipsis,
                   ),
-                ),
+                  // SizedBox(height: 5),
+                  // Text(
+                  //   '${questionProviderPrincipal.getHoursByKey(questionKey: widget.questionKey).toStringAsFixed(1)} hours',
+                  //   style: TextStyle(fontSize: 12),
+                  //   textAlign: TextAlign.center,
+                  // ),
+                ],
               ),
+              SizedBox(height: 10),
+              Text(
+                // "Consider applying a flex factor (e.g. using an Expanded widget) to force the children of the RenderFlex to fit within the available space instead of being sized to their natural size"
+                //     "Consider applying a flex factor (e.g. using an Expanded widget) to force the children of the RenderFlex to fit within the available space instead of being sized to their natural size",
+                 widget.question,
+
+                style: TextStyle(fontSize: 14, fontStyle: FontStyle.italic),
+                textAlign: TextAlign.center,
+              //  maxLines: 5,
+                // overflow: TextOverflow.ellipsis,
+              ),
+              SizedBox(height: 10),
 
               // if (false
               // //widget.isSelected && widget.showSlider
@@ -193,7 +187,12 @@ class _TaskPopUpCardState extends State<TaskPopUpCard> {
                 onChanged: (hour, min) {
                   print("Hour: $hour   Min: $min");
                   /// update answers
-                   questionProviderPrincipal.updateAnswer(key: "hour", value: hour.toDouble(), questionKey: widget.questionKey);
+                  setState(() {
+
+                    _localHours = hour.toDouble();
+                    _localMins= min.toDouble();
+                  });
+                  // questionProviderPrincipal.updateAnswer( hour: hour.toDouble(), questionKey: widget.questionKey, minute: min.toDouble());
                 },
               ),
               SizedBox(height: 20),
@@ -223,7 +222,8 @@ class _TaskPopUpCardState extends State<TaskPopUpCard> {
                         ),
                       ),
                       onPressed: (){
-                     //   questionProviderPrincipal.updateAnswer(key: "hour", value: widget.defaultHours.toDouble(), questionKey: widget.questionKey);
+
+                        questionProviderPrincipal.updateAnswer( hour:_localHours??0.0, questionKey: widget.questionKey, minute: _localMins??0.0 );
                         Navigator.pop(context);
                       }, child: Text("Submit",style: TextStyle(color: AppColors.white, fontWeight: FontWeight.bold),))  ,
 

@@ -88,7 +88,7 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
               questionProviderPrincipal.addAnswer(questionKey: title, question: question, answer: answer, gender: questionProviderPrincipal.selectedGender?? "Man",
                   point: point,
                   hour: hour,
-                  totalPoint: totalPoint,
+                  totalPoint: totalPoint, minute: 969696969696969,
               );
 
 

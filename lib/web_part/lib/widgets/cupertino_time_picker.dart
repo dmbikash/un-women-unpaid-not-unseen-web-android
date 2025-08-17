@@ -10,7 +10,7 @@ class HourMinutePicker extends StatefulWidget {
   const HourMinutePicker({
     super.key,
     this.initialHour = 0,
-    this.initialMinute = 0,
+    this.initialMinute = 30,
     required this.onChanged,
   });
 
@@ -25,8 +25,11 @@ class _HourMinutePickerState extends State<HourMinutePicker> {
   @override
   void initState() {
     super.initState();
+
     selectedHour = widget.initialHour;
     selectedMinute = widget.initialMinute;
+   //  widget.onChanged(selectedHour,selectedMinute,);
+
   }
 
   @override

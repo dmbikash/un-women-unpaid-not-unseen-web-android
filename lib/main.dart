@@ -26,7 +26,7 @@ void main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => ThemeProvider()),
-        ChangeNotifierProvider(create: (_) => QuestionProvider_old_app()),
+        //ChangeNotifierProvider(create: (_) => QuestionProvider_old_app()),
         ChangeNotifierProvider.value(value: languageService),
         ///
         ChangeNotifierProvider(create: (_) => CalculatorProvider()),

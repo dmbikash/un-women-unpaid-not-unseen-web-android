@@ -7,6 +7,33 @@
     'points_men': 60,
     'points_women': 50,
   },
+
+   {
+     'title': 'Grocery Shopping',
+     'question_key': 'grocery',
+     'imagePath': 'assets/Image/grocery_shopping.png',
+     'defaultHours': 3.0,
+     'points_men': 60,
+     'points_women': 50,
+   },
+   {
+     'title': 'Cleaning',
+     'question_key': 'cleaning',
+     'imagePath': 'assets/Image/cleaning.png',
+     'defaultHours': 3.0,
+     'points_men': 60,
+     'points_women': 50,
+   },
+
+   {
+     'title': 'Laundry',
+     'question_key': 'laundry',
+     'imagePath': 'assets/Image/laundry.png',
+     'defaultHours': 3.0,
+     'points_men': 60,
+     'points_women': 50,
+   },
+
   {
     'title': 'Childcare',
     'question_key': 'childcare',
@@ -23,72 +50,60 @@
      'points_men': 60,
     'points_women': 50,
   },
+
+   /////////
+
   {
-    'title': 'Cleaning',
-    'question_key': 'cleaning',
-    'imagePath': 'assets/Image/cleaning.png',
+    'title': 'Other Care Work',
+    'question_key': 'other_care_work',
+    'imagePath': 'assets/Image/safety-at-work.png',
     'defaultHours': 3.0,
      'points_men': 60,
     'points_women': 50,
   },
+
+
+
+
   {
-    'title': 'Grocery Shopping',
-    'question_key': 'grocery',
-    'imagePath': 'assets/Image/grocery_shopping.png',
+    'title': 'Transportation',
+    'question_key': 'transportation',
+    'imagePath': 'assets/Image/traffic.png',
     'defaultHours': 3.0,
      'points_men': 60,
     'points_women': 50,
   },
+
+   {
+     'title': 'Child Education',
+     'question_key': 'child_education',
+     'imagePath': 'assets/Image/homework_help.png',
+     'defaultHours': 3.0,
+     'points_men': 60,
+     'points_women': 50,
+   },
+
   {
-    'title': 'Laundry',
-    'question_key': 'laundry',
-    'imagePath': 'assets/Image/laundry.png',
+    'title': 'Making Home',
+    'question_key': 'making_home',
+    'imagePath': 'assets/Image/home-care.png',
     'defaultHours': 3.0,
      'points_men': 60,
     'points_women': 50,
   },
-  {
-    'title': 'Homework Help',
-    'question_key': 'homework_help',
-    'imagePath': 'assets/Image/homework_help.png',
+
+   {
+    'title': 'Home Maintenance',
+    'question_key': 'home_maintenance',
+    'imagePath': 'assets/Image/construction.png',
     'defaultHours': 3.0,
      'points_men': 60,
     'points_women': 50,
   },
+
+
   {
-    'title': 'Emotional Support',
-    'question_key': 'emotional_support',
-    'imagePath': 'assets/Image/emotional_support.png',
-    'defaultHours': 3.0,
-     'points_men': 60,
-    'points_women': 50,
-  },
-  {
-    'title': 'Gardening',
-    'question_key': 'gardening',
-    'imagePath': 'assets/Image/gardening.png',
-    'defaultHours': 3.0,
-     'points_men': 60,
-    'points_women': 50,
-  },
-  {
-    'title': 'Water Collection',
-    'question_key': 'water_collection',
-    'imagePath': 'assets/Image/water_collection.png',
-    'defaultHours': 3.0,
-     'points_men': 60,
-    'points_women': 50,
-  },
-  {
-    'title': 'Healthcare Support',
-    'question_key': 'health_care_support',
-    'imagePath': 'assets/Image/healthcare_support.png',
-    'defaultHours': 3.0,
-     'points_men': 60,
-    'points_women': 50,
-  },
-  {
-    'title': 'Other',
+    'title': 'Other Activities',
     'question_key': 'other',
     'imagePath': 'assets/Image/other.png',
     'defaultHours': 3.0,

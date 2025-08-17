@@ -16,6 +16,7 @@ class TaskCard extends StatefulWidget {
   final String questionKey;
   final String imagePath;
    double defaultHours;
+   double defaultMins;
    bool isSelected;
    bool showSlider;
   final int currentIndex;
@@ -27,6 +28,7 @@ class TaskCard extends StatefulWidget {
     required this.questionKey,
     required this.imagePath,
     required this.defaultHours,
+    required this.defaultMins,
     required this.isSelected,
     required this.showSlider,
     required this.currentIndex,
@@ -56,6 +58,9 @@ class _TaskCardState extends State<TaskCard> {
 
   @override
   Widget build(BuildContext context) {
+
+
+    final isTooSmall = MediaQuery.of(context).size.width < 375;
 
 
 
@@ -123,7 +128,8 @@ class _TaskCardState extends State<TaskCard> {
                 questionProviderPrincipal.addAnswer(questionKey: questionKey, question: question, answer: answer, gender: questionProviderPrincipal.selectedGender?? "Man",
                   point: point,
                   hour: hour,
-                  totalPoint: totalPoint,
+                  totalPoint: totalPoint, 
+                  minute: widget.defaultHours,
                 );
 
                 questionProviderPrincipal.refresh();
@@ -166,14 +172,14 @@ class _TaskCardState extends State<TaskCard> {
                         Image.asset(
                           widget.imagePath,
 
-                          height: 50,
-                          width: 50,
+                          height: isTooSmall?30: 30,
+                          width: isTooSmall ? 30: 30,
                         ),
                         SizedBox(height: 5),
                         Text(
                           widget.title,
                           style: TextStyle(
-                            fontSize: 14,
+                            fontSize: isTooSmall? 11: 14,
                             fontWeight: FontWeight.bold
                           ),
                           textAlign: TextAlign.center,
@@ -183,7 +189,7 @@ class _TaskCardState extends State<TaskCard> {
                         SizedBox(height: 5),
                         Text(
                           '${questionProviderPrincipal.getHoursByKey(questionKey: widget.questionKey).toStringAsFixed(1)} hours',
-                          style: TextStyle(fontSize: 12),
+                          style: TextStyle(fontSize: isTooSmall? 11: 12,),
                           textAlign: TextAlign.center,
                         ),
                       ],
@@ -256,7 +262,7 @@ class _TaskCardState extends State<TaskCard> {
                 onTap: () {
                   if (currentValue > 0) {
                     final newVal = (currentValue - 0.5).clamp(1, 24).toDouble();
-                    questionProviderPrincipal.updateAnswer(key: "hour", value: newVal, questionKey: widget.questionKey);
+                    questionProviderPrincipal.updateAnswer( hour: newVal, questionKey: widget.questionKey, minute: 0);
                     print("currentValue");
                     print(currentValue);
                   }
@@ -302,13 +308,13 @@ class _TaskCardState extends State<TaskCard> {
                       divisions: 48,
                       // For 0.5 increments
                       onChanged: (value) {
-                        questionProviderPrincipal.updateAnswer(key: "hour", value: value, questionKey: widget.questionKey);
+                        questionProviderPrincipal.updateAnswer(hour: value, questionKey: widget.questionKey, minute: 0);
 
                         //  setState(() => _localHours = value);
                       },
                       onChangeEnd: (value) {
                        widget.defaultHours = value.toDouble();
-                       questionProviderPrincipal.updateAnswer(key: "hour", value:  value.toDouble(), questionKey: widget.questionKey);
+                       questionProviderPrincipal.updateAnswer( hour:  value.toDouble(), questionKey: widget.questionKey, minute: 0);
                       },
                     ),
                   ),
@@ -319,7 +325,7 @@ class _TaskCardState extends State<TaskCard> {
                 onTap: () {
                   if (currentValue < 24) {
                     final newVal = (currentValue + 0.5).clamp(1, 24).toDouble();
-                    questionProviderPrincipal.updateAnswer(key: "hour", value: newVal, questionKey: widget.questionKey);
+                    questionProviderPrincipal.updateAnswer( hour: newVal, questionKey: widget.questionKey, minute: 0.0);
 
                   }
                 },
