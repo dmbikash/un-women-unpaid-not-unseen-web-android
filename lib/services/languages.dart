@@ -29,6 +29,9 @@ Map i18n = {
       "making_home": "Managing household bills, budgeting, planning, and organizing family responsibilities.",
       "other": "Volunteering, learning, socializing, hobbies, leisure, and cultural or community events."
     },
+    "card_modal":{
+      "alert" : "Total Hours have exceeded 24"
+    },
 
     "answers": {
       "yes": "Yes",
@@ -121,6 +124,10 @@ Map i18n = {
       "making_home": "বাড়ীর বিল পরিশোধ, বাজেট করা, পরিকল্পনা করা, পারিবারিক দায়িত্ব সমন্বয়",
       "home_maintenance": "বাড়ির জিনিসপত্র ও যন্ত্রপাতি মেরামত, সাজসজ্জা করা, উন্নয়ন করা, সংরক্ষণ করা",
       "other": "স্বেচ্ছাসেবক কাজ, শিক্ষামূলক কাজ, সামাজিকতা, শখ পূরণ, অবসর কাটানো, সাংস্কৃতিক বা সামাজিক অনুষ্ঠানে অংশগ্রহণ"
+    },
+
+    "card_modal":{
+      "alert" : "মোট সময়সীমা ২৪ ঘণ্টার বেশি হয়েছে।"
     },
 
     "answers": {

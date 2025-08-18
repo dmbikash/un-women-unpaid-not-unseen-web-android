@@ -1,3 +1,4 @@
+import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:unwomen_unpaid_not_unseen/web_part/lib/widgets/cupertino_time_picker.dart';
 
 import '../../../entities/questions.dart';
@@ -69,7 +70,53 @@ class _TaskPopUpCardState extends State<TaskPopUpCard> {
           ),
           child: Column(
             children: [
+
+
               // Always keep main block centered
+
+              Stack(
+                children: [
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 10, top: 20),
+                      child: Text("0",style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.black54),),),
+                  ),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 10, top: 20),
+                      child: Text("24",style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.black54),),),
+                  ),
+                  SizedBox(
+                    height: 20,
+                    child: LinearPercentIndicator(
+
+                      //width: 140.0,
+                      lineHeight: 14.0,
+                      percent: ((questionProviderPrincipal.getGrandTotalHour())/24) ,
+                      animation: true,
+                      backgroundColor: Colors.grey,
+                      progressColor: Colors.blue.shade200,
+                      barRadius: Radius.circular(5),
+                      // trailing: Padding(
+                      //   padding: const EdgeInsets.only(right: 8),
+                      //   child: Text("24",style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.black54),),
+                      // ),
+                      // leading: Padding(
+                      //   padding: const EdgeInsets.only(left: 8),
+                      //   child: Text("0",style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.black54),),
+                      // ),
+
+                    ),
+                  ),
+                ],
+              ),
+
+
+
+
+
               SizedBox(height: 10),
               /// image and question
               Row(
@@ -223,8 +270,21 @@ class _TaskPopUpCardState extends State<TaskPopUpCard> {
                       ),
                       onPressed: (){
 
-                        questionProviderPrincipal.updateAnswer( hour:_localHours??0.0, questionKey: widget.questionKey, minute: _localMins??0.0 );
-                        Navigator.pop(context);
+                        bool inHourLimit = (_localHours!+_localMins!/60 )+(questionProviderPrincipal.getGrandTotalHour()) <=24 ? true: false;
+                        // print((_localHours!+_localMins!/60 )+(questionProviderPrincipal.getGrandTotalHour()));
+                        // print(_localHours);
+                        // print(_localMins);
+                        // print(questionProviderPrincipal.getGrandTotalHour());
+
+                        if(inHourLimit) {
+                          questionProviderPrincipal.updateAnswer( hour:_localHours??0.0, questionKey: widget.questionKey, minute: _localMins??0.0 );
+                          Navigator.pop(context);
+                        }else{
+                          customPopUpModal("Failed!", 200, context, children: [Text("Total Hours have exceeded 24")]);
+                        }
+
+
+
                       }, child: Text("Submit",style: TextStyle(color: AppColors.white, fontWeight: FontWeight.bold),))  ,
 
 
