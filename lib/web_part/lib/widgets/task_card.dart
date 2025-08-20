@@ -120,8 +120,6 @@ class _TaskCardState extends State<TaskCard> {
                 bool answer = widget.isSelected;
                 double hour = widget.defaultHours;
 
-
-
                 int point = questionProviderPrincipal.selectedGender != null && questionProviderPrincipal.selectedGender=="Man" ? questionList[widget.currentIndex]["points_men"]:  questionList[index]["points_women"];
 
                 double totalPoint =point*hour ;
@@ -129,7 +127,7 @@ class _TaskCardState extends State<TaskCard> {
                   point: point,
                   hour: hour,
                   totalPoint: totalPoint, 
-                  minute: widget.defaultHours,
+                  minute: widget.defaultMins,
                 );
 
                 questionProviderPrincipal.refresh();
@@ -139,7 +137,9 @@ class _TaskCardState extends State<TaskCard> {
               /// usaer info are avilable
               taskModal("----------", 200, context, children: [
 
-                TaskPopUpCard(title: widget.title, question: widget.question, questionKey: widget.questionKey, imagePath: widget.imagePath, defaultHours: widget.defaultHours, isSelected: widget.isSelected, showSlider: true, currentIndex: widget.currentIndex,),
+                TaskPopUpCard(title: widget.title, question: widget.question, questionKey: widget.questionKey, imagePath: widget.imagePath,
+                //  defaultHours: widget.defaultHours,
+                  isSelected: widget.isSelected, showSlider: true, currentIndex: widget.currentIndex,),
               ]);
 
             }
@@ -188,7 +188,7 @@ class _TaskCardState extends State<TaskCard> {
                         ),
                         SizedBox(height: 5),
                         Text(
-                          '${questionProviderPrincipal.getHoursByKey(questionKey: widget.questionKey).toStringAsFixed(1)} hours',
+                          '${questionProviderPrincipal.getTotalHoursByKey(questionKey: widget.questionKey).toStringAsFixed(2)} hours',
                           style: TextStyle(fontSize: isTooSmall? 11: 12,),
                           textAlign: TextAlign.center,
                         ),
@@ -204,13 +204,13 @@ class _TaskCardState extends State<TaskCard> {
                     child: Padding(
                       padding: EdgeInsets.symmetric(horizontal: true ? 16 : 8),
                       child: _buildHoursControls(
-                          questionProviderPrincipal.getHoursByKey(questionKey: widget.questionKey),
+                          questionProviderPrincipal.getTotalHoursByKey(questionKey: widget.questionKey),
                         10, 10,
                         //sliderHeight, buttonIconSize
                       ),
                     ),
                   ),
-                if (widget.isSelected && questionProviderPrincipal.getHoursByKey(questionKey: widget.questionKey ) > 0)
+                if (widget.isSelected && questionProviderPrincipal.getTotalHoursByKey(questionKey: widget.questionKey ) > 0)
                   Positioned(
                     top: 6,
                     right: 6,
@@ -302,7 +302,7 @@ class _TaskCardState extends State<TaskCard> {
                       overlayColor: Colors.transparent,
                     ),
                     child: Slider(
-                      value: questionProviderPrincipal.getHoursByKey(questionKey: widget.questionKey),
+                      value: questionProviderPrincipal.getTotalHoursByKey(questionKey: widget.questionKey),
                       min: 1,
                       max: 24,
                       divisions: 48,

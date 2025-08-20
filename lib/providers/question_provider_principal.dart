@@ -6,6 +6,8 @@ class QuestionProviderPrincipal with ChangeNotifier {
   TextEditingController userName = TextEditingController(text: kDebugMode? "Tester":"");
 
   String? selectedGender = kDebugMode? "Woman":null;
+  double defaultHour = 0;
+  double defaultMinute = 30;
 
   List<Map> answerSheet = [];
 /*
@@ -102,7 +104,7 @@ class QuestionProviderPrincipal with ChangeNotifier {
     // notifyListeners();
   }
 
-  double getHoursByKey({required String questionKey}) {
+  double getTotalHoursByKey({required String questionKey}) {
     int index = answerSheet.indexWhere((map) => map.containsValue(questionKey));
     if (index != -1) {
       // Key exists — update the value
@@ -114,6 +116,42 @@ class QuestionProviderPrincipal with ChangeNotifier {
     } else {
       // Key not found
       return 0.0;
+      print("value '$questionKey' not found in any map");
+    }
+    // notifyListeners();
+  }
+
+  double getHoursByKey({required String questionKey}) {
+    int index = answerSheet.indexWhere((map) => map.containsValue(questionKey));
+    if (index != -1) {
+      // Key exists — update the value
+      // double  hour = answerSheet[index]["hour"]?? 0.0;
+      // double  minute = answerSheet[index]["minute"]?? 0.0;
+      // double  time = answerSheet[index]["time"]?? 0.0;
+      print("getHoursByKey : ${answerSheet[index]["hour"]}");
+      return answerSheet[index]["hour"];
+    } else {
+      // Key not found
+      print("returning default hour");
+      return defaultHour;
+      print("value '$questionKey' not found in any map");
+    }
+    // notifyListeners();
+  }
+
+  double getMinutesByKey({required String questionKey}) {
+    int index = answerSheet.indexWhere((map) => map.containsValue(questionKey));
+    if (index != -1) {
+      // Key exists — update the value
+      // double  hour = answerSheet[index]["hour"]?? 0.0;
+      // double  minute = answerSheet[index]["minute"]?? 0.0;
+      // double  time = answerSheet[index]["time"]?? 0.0;
+      print("getMinutesByKey : ${answerSheet[index]["minute"]}");
+      return answerSheet[index]["minute"] ==0? defaultMinute : answerSheet[index]["minute"] ;
+    } else {
+      print("returning default min");
+      return defaultMinute;
+
       print("value '$questionKey' not found in any map");
     }
     // notifyListeners();

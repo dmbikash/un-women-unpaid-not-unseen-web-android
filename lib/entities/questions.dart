@@ -84,7 +84,7 @@
    },
 
   {
-    'title': 'Making Home',
+    'title': 'Running the Household',
     'question_key': 'making_home',
     'imagePath': 'assets/Image/home-care.png',
     'defaultHours': 3.0,

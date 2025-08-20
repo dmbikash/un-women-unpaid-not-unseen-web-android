@@ -176,21 +176,18 @@ class _ShareResultPageState extends State<ShareResultPage> {
                 children: [
                   // Unpaid not unseen logo
                   Container(
-                    padding: EdgeInsets.all(MediaQuery
-                        .of(context)
-                        .size
-                        .width * 0.025),
+                    // padding: EdgeInsets.all(MediaQuery
+                    //     .of(context)
+                    //     .size
+                    //     .width * 0.025),
                     decoration: BoxDecoration(
                       color: AppColors.primary,
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Image.asset(
                       'assets/logo/unpaid_not_unseen.png',
-                      height: MediaQuery
-                          .of(context)
-                          .size
-                          .width * 0.125,
-                      fit: BoxFit.contain,
+                      //height: 50,
+                      fit: BoxFit.fitWidth,
                     ),
                   ),
                   SizedBox(height: MediaQuery

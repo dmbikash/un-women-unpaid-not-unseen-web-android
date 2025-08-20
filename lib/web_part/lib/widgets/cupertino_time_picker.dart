@@ -10,7 +10,7 @@ class HourMinutePicker extends StatefulWidget {
   const HourMinutePicker({
     super.key,
     this.initialHour = 0,
-    this.initialMinute = 30,
+    this.initialMinute = 0,
     required this.onChanged,
   });
 

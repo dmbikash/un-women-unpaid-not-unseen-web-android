@@ -16,7 +16,7 @@ class TaskPopUpCard extends StatefulWidget {
   final String question;
   final String questionKey;
   final String imagePath;
-  double defaultHours;
+  //double defaultHours;
   bool isSelected;
   bool showSlider;
   final int currentIndex;
@@ -27,7 +27,7 @@ class TaskPopUpCard extends StatefulWidget {
     required this.question,
     required this.questionKey,
     required this.imagePath,
-    required this.defaultHours,
+    //required this.defaultHours,
     required this.isSelected,
     required this.showSlider,
     required this.currentIndex,
@@ -38,9 +38,8 @@ class TaskPopUpCard extends StatefulWidget {
 }
 
 class _TaskPopUpCardState extends State<TaskPopUpCard> {
-
-  double? _localHours;
-  double? _localMins =30;
+  late double _localHours ;
+  late double _localMins ;
 
   @override
   void didUpdateWidget(covariant TaskPopUpCard oldWidget) {
@@ -54,6 +53,15 @@ class _TaskPopUpCardState extends State<TaskPopUpCard> {
   void initState() {
     // TODO: implement initState
     questionProviderPrincipal = Provider.of<QuestionProviderPrincipal>(context, listen: false);
+
+    _localHours = questionProviderPrincipal.getHoursByKey(questionKey: widget.questionKey);
+    _localMins = questionProviderPrincipal.getMinutesByKey(questionKey: widget.questionKey);
+
+    print('_localHours');
+    print(_localHours);
+    print('_localMins');
+    print(_localMins);
+
     super.initState();
   }
 
@@ -62,43 +70,38 @@ class _TaskPopUpCardState extends State<TaskPopUpCard> {
     return Consumer<QuestionProviderPrincipal>(
       builder: (context, questionProviderPrincipal, child) {
         return Container(
-          margin: EdgeInsets.only(top: 20,bottom: 10),
-          decoration: BoxDecoration(
-            color: AppColors.background,
-            borderRadius: BorderRadius.circular(4),
-            border: Border.all(color:  Colors.grey.shade300, width:  2 ),
-          ),
+          margin: EdgeInsets.only(top: 20, bottom: 10),
+          decoration: BoxDecoration(color: AppColors.background, borderRadius: BorderRadius.circular(4), border: Border.all(color: Colors.grey.shade300, width: 2)),
           child: Column(
             children: [
-
-
               // Always keep main block centered
-
               Stack(
                 children: [
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Padding(
                       padding: const EdgeInsets.only(left: 10, top: 20),
-                      child: Text("0",style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.black54),),),
+                      child: Text("0", style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.black54)),
+                    ),
                   ),
                   Align(
                     alignment: Alignment.centerRight,
                     child: Padding(
                       padding: const EdgeInsets.only(right: 10, top: 20),
-                      child: Text("24",style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.black54),),),
+                      child: Text("24", style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.black54)),
+                    ),
                   ),
                   SizedBox(
                     height: 20,
                     child: LinearPercentIndicator(
-
                       //width: 140.0,
                       lineHeight: 14.0,
-                      percent: ((questionProviderPrincipal.getGrandTotalHour())/24) ,
+                      percent: ((questionProviderPrincipal.getGrandTotalHour()) / 24),
                       animation: true,
                       backgroundColor: Colors.grey,
                       progressColor: Colors.blue.shade200,
                       barRadius: Radius.circular(5),
+
                       // trailing: Padding(
                       //   padding: const EdgeInsets.only(right: 8),
                       //   child: Text("24",style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.black54),),
@@ -107,30 +110,27 @@ class _TaskPopUpCardState extends State<TaskPopUpCard> {
                       //   padding: const EdgeInsets.only(left: 8),
                       //   child: Text("0",style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.black54),),
                       // ),
-
                     ),
                   ),
                 ],
               ),
 
-
-
-
-
               SizedBox(height: 10),
+
               /// image and question
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Image.asset(widget.imagePath, height: 50, width: 50),
-                  SizedBox(width: 20,),
+                  SizedBox(width: 20),
+
                   /// title and question
                   Text(
                     widget.title,
                     style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                     textAlign: TextAlign.center,
                     maxLines: 2,
-                   // overflow: TextOverflow.ellipsis,
+                    // overflow: TextOverflow.ellipsis,
                   ),
                   // SizedBox(height: 5),
                   // Text(
@@ -144,11 +144,11 @@ class _TaskPopUpCardState extends State<TaskPopUpCard> {
               Text(
                 // "Consider applying a flex factor (e.g. using an Expanded widget) to force the children of the RenderFlex to fit within the available space instead of being sized to their natural size"
                 //     "Consider applying a flex factor (e.g. using an Expanded widget) to force the children of the RenderFlex to fit within the available space instead of being sized to their natural size",
-                 widget.question,
+                widget.question,
 
                 style: TextStyle(fontSize: 14, fontStyle: FontStyle.italic),
                 textAlign: TextAlign.center,
-              //  maxLines: 5,
+                //  maxLines: 5,
                 // overflow: TextOverflow.ellipsis,
               ),
               SizedBox(height: 10),
@@ -231,69 +231,69 @@ class _TaskPopUpCardState extends State<TaskPopUpCard> {
 
               ///  cuppertino hour and time picker
               HourMinutePicker(
+                initialHour: _localHours.toInt(),
+                initialMinute: _localMins.toInt(),
+
                 onChanged: (hour, min) {
                   print("Hour: $hour   Min: $min");
+
                   /// update answers
                   setState(() {
-
                     _localHours = hour.toDouble();
-                    _localMins= min.toDouble();
+                    _localMins = min.toDouble();
                   });
                   // questionProviderPrincipal.updateAnswer( hour: hour.toDouble(), questionKey: widget.questionKey, minute: min.toDouble());
                 },
               ),
               SizedBox(height: 20),
-              SizedBox(
-                height: 20,
-              ),
+              SizedBox(height: 20),
+
               ///  bottom buttons
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   ElevatedButton(
-                      style: OutlinedButton.styleFrom(
-                        backgroundColor: Colors.redAccent,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16), // Optional rounded corners
-                        ),
+                    style: OutlinedButton.styleFrom(
+                      backgroundColor: Colors.redAccent,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16), // Optional rounded corners
                       ),
-                      onPressed: (){
-
-                        Navigator.pop(context);
-                      }, child: Text("Cancel",style: TextStyle(color: AppColors.white, fontWeight: FontWeight.bold),))  ,
+                    ),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text("Cancel", style: TextStyle(color: AppColors.white, fontWeight: FontWeight.bold)),
+                  ),
                   ElevatedButton(
-                      style: OutlinedButton.styleFrom(
-                        backgroundColor: AppColors.primary,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16), // Optional rounded corners
-                        ),
+                    style: OutlinedButton.styleFrom(
+                      backgroundColor: AppColors.primary,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16), // Optional rounded corners
                       ),
-                      onPressed: (){
+                    ),
+                    onPressed: () {
+                      bool inHourLimit = (((_localHours ?? 0.0) + _localMins! / 60) + questionProviderPrincipal.getGrandTotalHour()) <= 24.0;
 
-                        bool inHourLimit = (_localHours!+_localMins!/60 )+(questionProviderPrincipal.getGrandTotalHour()) <=24 ? true: false;
-                        // print((_localHours!+_localMins!/60 )+(questionProviderPrincipal.getGrandTotalHour()));
-                        // print(_localHours);
-                        // print(_localMins);
-                        // print(questionProviderPrincipal.getGrandTotalHour());
+                      print("-------");
+                      print((_localHours! + _localMins! / 60) + (questionProviderPrincipal.getGrandTotalHour()));
+                      print(inHourLimit);
+                      print(_localHours);
+                      print(_localMins);
+                      print(questionProviderPrincipal.getGrandTotalHour());
+                      print("-------");
 
-                        if(inHourLimit) {
-                          questionProviderPrincipal.updateAnswer( hour:_localHours??0.0, questionKey: widget.questionKey, minute: _localMins??0.0 );
-                          Navigator.pop(context);
-                        }else{
-                          customPopUpModal("Failed!", 200, context, children: [Text("Total Hours have exceeded 24")]);
-                        }
-
-
-
-                      }, child: Text("Submit",style: TextStyle(color: AppColors.white, fontWeight: FontWeight.bold),))  ,
-
-
+                      if (inHourLimit) {
+                        questionProviderPrincipal.updateAnswer(hour: _localHours ?? 0.0, questionKey: widget.questionKey, minute: _localMins ?? 0.0);
+                        Navigator.pop(context);
+                      } else {
+                        customPopUpModal("Failed!", 200, context, children: [Text("Total Hours have exceeded 24")]);
+                      }
+                    },
+                    child: Text("Submit", style: TextStyle(color: AppColors.white, fontWeight: FontWeight.bold)),
+                  ),
                 ],
-
               ),
-              SizedBox(
-                height: 10,
-              ),
+              SizedBox(height: 10),
             ],
           ),
         );

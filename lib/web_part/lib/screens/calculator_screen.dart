@@ -138,11 +138,20 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Image.asset(
-                            'assets/logo/unpaid_not_unseen.png',
-                            height: 100,
-                            fit: BoxFit.contain,
+                          Padding(
+                            padding: const EdgeInsets.all(0),
+                            child: Container(
+                             // width: double.infinity,
+                              padding: const EdgeInsets.all(0),
+                              //color: Colors.yellow,
+                              child: Image.asset(
+                                'assets/logo/unpaid_not_unseen${isWebSize?"_wide":""}.png',
+                               height: 102,
+                               // width: double.infinity,
+                                fit: BoxFit.fitWidth,
 
+                              ),
+                            ),
                           ),
 
                           const SizedBox(height: 24),
@@ -183,7 +192,7 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                                       .start,
                                   children: [
                                     Text(
-                                      'What is Unpaid Care Work?',
+                                      'What is Unpaid Work?',
                                       style: AppTextStyles.h2(context),
                                     ),
                                     const SizedBox(height: 12),
@@ -201,12 +210,13 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                                       .start,
                                   children: [
                                     Text(
-                                      'Why Calculate Its Value?',
+                                      "Disclaimer",
+                                      //'Why Calculate Its Value?',
                                       style: AppTextStyles.h2(context),
                                     ),
                                     const SizedBox(height: 12),
                                     Text(
-                                      'By putting a value on unpaid care work, we can better understand its economic contribution and advocate for policies that recognize and support care workers.',
+                                      'This calculator is only intended to be used as an advocacy tool to recognize and value unpaid domestic and care work in Bangladesh',
                                       style: AppTextStyles.normal(context),
                                     ),
                                   ],
@@ -316,10 +326,10 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                 style: AppTextStyles.h2(context, color: Colors.white),
               ),
               // const SizedBox(height: 8),
-              Text(
-                'Your Name',
-                style: AppTextStyles.normal(context, color: Colors.white),
-              ),
+              // Text(
+              //   'Your Name',
+              //   style: AppTextStyles.normal(context, color: Colors.white),
+              // ),
               //const SizedBox(height: 8),
               Consumer<QuestionProviderPrincipal>(
                 builder: (context,questionProvider, child) {
@@ -372,7 +382,7 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                         child: Column(
                           children: [
                             Text(
-                              questionProvider.getGrandTotalHour().toStringAsFixed(1),
+                              questionProvider.getGrandTotalHour().toStringAsFixed(2),
                               style: TextStyle(fontWeight: FontWeight.bold,
                                   fontSize: smallScreen? 18 :24,
                                   color: Color(0xff2599D8)),
@@ -430,8 +440,8 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
               const SizedBox(height: 8),
 
               Text(
-                'Based on the HPRA research in Bangladesh for Women',
-                style: TextStyle(fontSize: smallScreen? 14:18, color: Colors.white),
+                'The value of unpaid work shown is based on the 2021 estimates outlined in the Unpaid Household Production Satellite Account of Bangladesh Report by BBS and UN Women. The value generated is not at current rates nor reflects pay parity. ',
+                style: TextStyle(fontSize: smallScreen? 10:14, color: Colors.white),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 8),

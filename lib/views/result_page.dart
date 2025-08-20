@@ -77,8 +77,8 @@ class _ResultPageState extends State<ResultPage> {
             children: [
               SingleChildScrollView(
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
+
+
                   children: [
                     TopCardTotalPoints(langService: langService, questionProviderPrincipal: questionProviderPrincipal, headerText:  i18n[langService
                         .currentLanguage]?['result_page']?['your_unpaid_work_value'] ??
@@ -101,7 +101,7 @@ class _ResultPageState extends State<ResultPage> {
                         .of(context)
                         .size
                         .height * 0.01),
-                    Card(
+                 if(false)   Card(
                       color: Colors.white,
                       elevation: 2,
                       shape: RoundedRectangleBorder(
@@ -332,15 +332,44 @@ class TopCardTotalPoints extends StatelessWidget {
         borderRadius: BorderRadius.circular(16.0),
       ),
       child: Padding(
-        padding: EdgeInsets.all(MediaQuery
+        padding: EdgeInsets.only(
+          left: MediaQuery
             .of(context)
             .size
             .width * 0.06,
+          right: MediaQuery
+            .of(context)
+            .size
+            .width * 0.06,bottom: MediaQuery
+            .of(context)
+            .size
+            .width * 0.02,
+          top: MediaQuery
+            .of(context)
+            .size
+            .width * 0.01,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: [
+
+            Container(
+              // width: double.infinity,
+              padding: const EdgeInsets.all(0),
+              //color: Colors.yellow,
+              child: Image.asset(
+                'assets/logo/unpaid_not_unseen${false?"_wide":""}.png',
+                height: 50,
+                // width: double.infinity,
+                fit: BoxFit.fitWidth,
+
+              ),
+            ),
+            SizedBox(height: MediaQuery
+                .of(context)
+                .size
+                .height * 0.02,),
             Text(
              headerText,
               style: TextStyle(

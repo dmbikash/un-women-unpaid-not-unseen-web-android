@@ -11,7 +11,7 @@ Map i18n = {
       'change_language_button': 'Change Language',
       "name": "Name",
       "gender": "Sex",
-      "select_card_note": "Select Your Care Work Tasks \nGive Total Work Hours (Daily)",
+      "select_card_note": "Select the tasks you perform in a given day (24 hours) \nand the time it takes. ",
     },
 
     "questions": {
@@ -55,13 +55,13 @@ Map i18n = {
       "total_value": "Total BDT",
       "points_suffix": "BDT",
       "view_breakdown": "View Detailed Breakdown",
-      "back": "Back",
+      "back": "Back to Calculator Page",
       "daily": "Daily",
       "weekly": "Weekly",
       "monthly": "Monthly",
     },
     "share_result_page": {
-      "title": "Share Your Results",
+      "title": "Detailed Results",
       "unpaid_work_value": "Your Unpaid Work Value",
       "economic_value": "The economic value of your unpaid contributions",
       "weekly_value": "Daily value of your unpaid work",
@@ -91,7 +91,7 @@ Map i18n = {
       "other_care_work": "Other Care Work",
       "transportation": "Transportation",
       "child_education": "Child Education",
-      "making_home": "Making Home",
+      "making_home": "Running the Household",
       "home_maintenance": "Home Maintenance",
       "other": "Other Activities"
     }
@@ -151,7 +151,7 @@ Map i18n = {
       "total_value": "মোট মূল্য",
       "points_suffix": "টাকা",
       "view_breakdown": "বিস্তারিত দেখুন",
-      "back": "পেছনে যান",
+      "back": "ক্যালকুলেটর পেজ এ যান",
 "daily": "দৈনিক",
 "weekly": "সাপ্তাহিক",
 "monthly": "মাসিক",
